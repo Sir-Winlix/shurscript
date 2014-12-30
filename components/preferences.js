@@ -185,6 +185,14 @@
 			});
 		});
 
+		// Click en boton "Guardar URL"
+		$modal.on('click', '#backend-save', function () {
+			console.log('** ' + preferences.$modal.$('#backend-url').value);
+			SHURSCRIPT.sync.saveBackendURL($('#backend-url').value);
+			console.log('Guardando... 2');
+		});
+
+
 		preferences.$modal = $modal;
 		
 		unsafeWindow.viewPlainText = function (enlace) {		
@@ -320,6 +328,7 @@
 			userIdDebug: SHURSCRIPT.environment.user.id,
 			urlDebug: SHURSCRIPT.preferences.helper.location.href,
 			agentDebug: SHURSCRIPT.environment.browser.name,
+			backendURL: SHURSCRIPT.config.backendURL,
 			modules: []
 		};
 

@@ -12,6 +12,7 @@
 
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#tab-pref" data-toggle="tab">Preferencias</a></li>
+				<li><a href="#tab-backend" data-toggle="tab">Preferencias backend</a></li>
 				<li><a href="#tab-about" data-toggle="tab">Acerca de</a></li>
 				<li><a href="#tab-collaborate" data-toggle="tab">Colabora</a></li>
 				<li><a href="#tab-help" data-toggle="tab">Ayuda</a></li>
@@ -137,6 +138,33 @@
 				<% });%>
 			</div>
 			
+			<!-- Pestaña de Preferencias backend -->
+			<div class="modal-body tab-pane" id="tab-backend" style="overflow: auto;">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								Configura la URL de tu backend
+							</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="form-group">
+										<label for="backend-url">URL</label>
+										<input type="text" name="backend-url" class="form-control" id="backend-url" value="<%=backendURL%>"/>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+										<a class="btn btn-default btn-sm" data-loading-text="Guardando URL" id="backend-save">Guardar URL</a>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+
 			<!-- Pestaña de Acerca de -->
 			<div class="modal-body tab-pane" id="tab-about" style="overflow: auto;">
 
