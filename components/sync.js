@@ -16,7 +16,7 @@
 	};
 
 	var Cloud = {
-		server: SHURSCRIPT.config.server,
+		server: "",
 		apiKey: "",
 		preferences: {}, //las preferencias sacadas del server
 
@@ -138,7 +138,7 @@
 		//obtenemos la URL del backend
 		var backendURL = getBackendURL();
 		if (backendURL) {
-			SHURSCRIPT.config.server = backendURL;
+			Cloud.server = backendURL;
 		}
 
 		//ahora necesitamos la API key. ¿existe ya una API Key guardada en las suscripciones?
