@@ -218,7 +218,6 @@
 	 * Guarda la URL del backend en local.
 	 */
 	sync.saveBackendURL = function (new_backendURL) {
-		console.log('SAVE :' + new_backendURL);
 		sync.helper.setLocalValue("BACKEND_URL", new_backendURL);
 	}
 

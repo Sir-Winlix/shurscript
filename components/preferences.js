@@ -187,9 +187,8 @@
 
 		// Click en boton "Guardar URL"
 		$modal.on('click', '#backend-save', function () {
-			console.log('** ' + preferences.$modal.$('#backend-url').value);
-			SHURSCRIPT.sync.saveBackendURL($('#backend-url').value);
-			console.log('Guardando... 2');
+			var new_backendURL = $('#backend-url').val();
+			SHURSCRIPT.sync.saveBackendURL(new_backendURL);
 		});
 
 
