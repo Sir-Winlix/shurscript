@@ -18,7 +18,6 @@
 	var Cloud = {
 		server: SHURSCRIPT.config.server,
 		apiKey: "",
-		backendURL: "",
 		preferences: {}, //las preferencias sacadas del server
 
 		setValue: function (key, value, callback) {
@@ -53,6 +52,12 @@
 		getAll: function (callback) {
 			SHURSCRIPT.config.apiKey = this.apiKey;
 
+			if (!this.server)
+			{
+				sync.helper.log("Es necesario configurar la URL del backend");
+				callback();
+				return;
+			}
 			sync.helper.log("Cloud.getAll() using API key: " + this.apiKey);
 			GM_xmlhttpRequest({
 				method: 'GET',
@@ -132,6 +137,9 @@
 
 		//obtenemos la URL del backend
 		var backendURL = getBackendURL();
+		if (backendURL) {
+			SHURSCRIPT.config.server = backendURL;
+		}
 
 		//ahora necesitamos la API key. ¿existe ya una API Key guardada en las suscripciones?
 		var apiKey = getApiKey();
@@ -209,7 +217,7 @@
 	 * Devuelve la URL guardada en local del backend.
 	 */
 	function getBackendURL() {
-		var actual_backendURL = sync.helper.getLocalValue("BACKEND_URL");
+		var actual_backendURL = SHURSCRIPT.core.helper.getLocalValue("BACKEND_URL");
 
 		return actual_backendURL;
 	}
@@ -218,7 +226,7 @@
 	 * Guarda la URL del backend en local.
 	 */
 	sync.saveBackendURL = function (new_backendURL) {
-		sync.helper.setLocalValue("BACKEND_URL", new_backendURL);
+		SHURSCRIPT.core.helper.setLocalValue("BACKEND_URL", new_backendURL);
 	}
 
 })(jQuery, SHURSCRIPT);

@@ -16,7 +16,7 @@ var SHURSCRIPT = {
 		getResourceURL: GM_getResourceURL
 	},
 	config: {
-		server: "http://cloud.shurscript.org:8080/"
+		server: ""
 	},
 	environment: {
 		page: location.pathname.indexOf("/foro") !== -1 ? location.pathname.replace("/foro", "") : "frontpage",
@@ -334,6 +334,17 @@ function getCurrentThread() {
 			className: "shurscript",
 			closeButton: false
 		});
+
+		var actual_backendURL = core.helper.getLocalValue("BACKEND_URL");
+		SHURSCRIPT.config.server = actual_backendURL;
+
+		//Si no hay configurada ninguna URL de backend continuamos la carga para poder acceder a la configuración
+		if (!SHURSCRIPT.config.server)
+		{
+			core.helper.log("Cargando el script sin URL de backend");
+			core.loadNextComponent();
+			return;
+		}
 
 		//Recuperamos las configuraciones del servidor
 		$.ajax({
