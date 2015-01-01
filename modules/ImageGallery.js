@@ -12,6 +12,7 @@
 
   var thread;
   var pages;
+  var current_pages;
   var title;
   var images = [];
   var index = 0;
@@ -48,17 +49,30 @@
   };
 
   mod.openGallery = function () {
-    thread = SHURSCRIPT.environment.thread.id;
-    title = $('.cmega').text();
-    pages = numberPages();
     /* En caso de haber abierto previamente la galería no cargamos las imagenes nuevamente */
     if( images.length <= 0) {
-      for (i = 1; i <= pages; i++) {
-        loadNextImage(i);
-      }
-      cleanImages(images);
+      current_pages = 1;
+      loadImages();
     }
+    else
+    {
+      showImages();
+    }
+  }
+  
+  function loadImages() {
+    /* Si faltan páginas por procesar continuamos, en caso contrario hacemos limpieza y mostramos */
+    if (current_pages <= pages) {
+      loadNextImage(current_pages);
+      current_pages++;
+    }
+    else {
+      cleanImages(images);
+      showImages();
+    }
+  }
 
+  function showImages() {
     var modal = '<div id="gl"><div id="gallery" class="modal fade modal-tag" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">'
     + '<div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header">'
     + '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</button>'
@@ -86,9 +100,10 @@
 
   /* Cargamos las páginas del hilo y buscamos las imagenes */
   function loadNextImage(page) {
-    var reIm = /\<img src="(.*?)"/i;
+    var reIm = /\<img .*?src="(.*?)"/i;
     var reMe = /<!-- message -->([\s\S]*?)<!-- \/ message -->/i;
     var xmlhttp = new XMLHttpRequest();
+    
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
         var html = xmlhttp.responseText;
@@ -105,12 +120,13 @@
           }
           html = html.replace(reMe, '1');
         }
+        loadImages();
       }
     };
     if (page > 1) {
-      xmlhttp.open('GET', '/foro/showthread.php?t=' + thread + '&page=' + page, false);
+      xmlhttp.open('GET', '/foro/showthread.php?t=' + thread + '&page=' + page, true);
     }else {
-      xmlhttp.open('GET', '/foro/showthread.php?t=' + thread, false);
+      xmlhttp.open('GET', '/foro/showthread.php?t=' + thread, true);
     }
 
     xmlhttp.send();
