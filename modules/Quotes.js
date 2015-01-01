@@ -13,7 +13,7 @@
 			showAlerts: true,
 			mentionsToo: true,
 			openInTabsButton: false,
-			refreshEvery: 2,
+			refreshEvery: 30,
 			ignoredUsers: ''
 		}
 	});

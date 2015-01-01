@@ -10,8 +10,8 @@
 		domain: ['/showthread.php'],
 		initialPreferences: {
 			enabled: true,
-			activeTabPeriodicity: 10000,
-			hiddenTabPeriodicity: 30000,
+			activeTabPeriodicity: 30000,
+			hiddenTabPeriodicity: 'off',
 			loadAutomatically: false,
 			nextPageButton: false,
 		},
