@@ -189,6 +189,14 @@
 		$modal.on('click', '#backend-save', function () {
 			var new_backendURL = $('#backend-url').val();
 			SHURSCRIPT.sync.saveBackendURL(new_backendURL);
+
+			if (new_backendURL == SHURSCRIPT.config.server)
+			{
+				bootbox.alert("URL guardada con éxito");
+			}
+			else {
+				bootbox.alert("Fallo al guardar la URL :(");
+			}
 		});
 
 
@@ -327,7 +335,7 @@
 			userIdDebug: SHURSCRIPT.environment.user.id,
 			urlDebug: SHURSCRIPT.preferences.helper.location.href,
 			agentDebug: SHURSCRIPT.environment.browser.name,
-			backendURL: SHURSCRIPT.config.backendURL,
+			backendURL: SHURSCRIPT.config.server,
 			modules: []
 		};
 

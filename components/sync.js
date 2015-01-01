@@ -88,7 +88,9 @@
 							sync.helper.showMessageBar({message: "<strong>Oops...</strong> No se ha podido contactar con el cloud de <strong>shurscript</strong>. Consulta qué puede estar causando este problema en <a href='https://github.com/TheBronx/shurscript/wiki/FAQ#no-se-ha-podido-contactar-con-el-cloud-de-shurscript'>las F.A.Q.</a> y, si el problema persiste, deja constancia en el <a href='" + SHURSCRIPT.config.fcThread + "'>hilo oficial</a>. <strong>{err: general}</strong>", type: "danger"});
 							break;
 					}
-					sync.helper.throw("Error al recuperar las preferencias", response)
+					sync.helper.throw("Error al recuperar las preferencias", response);
+					// TODO [igtroop]: aunque falle al cargar las preferencias seguimos para poder acceder a la configuración de la URL del backend
+					callback();
 				}
 			});
 		},

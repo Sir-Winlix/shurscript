@@ -369,6 +369,8 @@ function getCurrentThread() {
 					});
 				}, 3000);
 			}
+			// TODO [igtroop]: aunque falle lanzamos el cargador de componentes y modulos para poder acceder a la configuración de la URL del backend
+			core.loadNextComponent();
 		});
 
 	};
