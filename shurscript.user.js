@@ -28,7 +28,7 @@
 // @grant           GM_getResourceURL
 // @grant           GM_getMetadata
 // @run-at          document-end
-// @updateURL       https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js
+// @updateURL       https://github.com/igtroop/shurscript/raw/anycloud/shurscript.meta.js
 // @downloadURL     https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js
 // @require         https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js
 // @require         https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js

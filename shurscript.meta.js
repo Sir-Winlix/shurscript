@@ -28,6 +28,6 @@
 // @grant           GM_getResourceURL
 // @grant           GM_getMetadata
 // @run-at          document-end
-// @updateURL       https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js
+// @updateURL       https://github.com/igtroop/shurscript/raw/anycloud/shurscript.meta.js
 // @downloadURL     https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js
 // ==/UserScript==
