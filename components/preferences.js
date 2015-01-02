@@ -10,7 +10,7 @@
 		return {
 			name: 'Shurscript',
 			description: 'Abrir preferencias',
-			image: SHURSCRIPT.config.imagesURL + 'roto2.gif',
+			image: SHURSCRIPT.config.imagesURL + 'roto2.png',
 			handler: preferences.onShow
 		};
 	};

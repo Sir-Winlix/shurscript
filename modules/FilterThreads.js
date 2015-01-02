@@ -254,7 +254,7 @@
 			modal.find('.modal-body').css('text-align', 'center');
 			modal.find('.modal-body').html('<span style="color: gray; font-size: 14pt; display: inline-block; font-weight: 200; margin-bottom: 10px;">'
 				+ 'Todav&iacute;a no has a&ntilde;adido ning&uacute;n hilo como favorito :('
-				+ '</span><img src="' + SHURSCRIPT.config.imagesURL + 'howtofav.gif' + '">');
+				+ '</span><img src="' + SHURSCRIPT.config.imagesURL + 'howtofav.png' + '">');
 		}
 
 		modal.on('hidden.bs.modal', function () {
@@ -321,7 +321,7 @@
 			}
 		}
 		GM_addStyle(".fav img {display:none;} .fav {cursor: pointer; background-repeat:no-repeat; background-position: center; background-image:url('" + SHURSCRIPT.config.imagesURL + 'fav.png' + "');min-width:20px;}");
-		GM_addStyle(".shurmenu_trigger img, .shurmenu_opened img {display:none;} .shurmenu_trigger, .shurmenu_opened {cursor: pointer; background-repeat:no-repeat; background-position: center; background-image:url('" + SHURSCRIPT.config.imagesURL + 'roto2.gif' + "');min-width:20px;}");
+		GM_addStyle(".shurmenu_trigger img, .shurmenu_opened img {display:none;} .shurmenu_trigger, .shurmenu_opened {cursor: pointer; background-repeat:no-repeat; background-position: center; background-image:url('" + SHURSCRIPT.config.imagesURL + 'roto2.png' + "');min-width:20px;}");
 		GM_addStyle(".not_fav img {display:none;} .not_fav {cursor: pointer; background-repeat:no-repeat; background-position: center; background-image:url('" + SHURSCRIPT.config.imagesURL + 'nofav.png' + "');min-width:20px;}");
 		GM_addStyle(".shur_estrella {width:30px;vertical-align:middle;} .shur_estrella a {cursor: pointer; width:20px; height:20px; display:block; background-repeat:no-repeat; background-position: center; background-image:url('" + SHURSCRIPT.config.imagesURL + 'nofav.png' + "'); margin:0 auto;} .shur_estrella a.fav {background-image:url('" + SHURSCRIPT.config.imagesURL + 'fav.png' + "');}");
 
