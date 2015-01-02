@@ -104,6 +104,11 @@
 		generateApiKey: function (callback, oldKey) {
 			sync.helper.deleteLocalValue("API_KEY");
 			sync.helper.log("Cloud.generateApiKey()");
+			// TODO [igtroop]: aunque falle al cargar las preferencias seguimos para poder acceder a la configuración de la URL del backend
+			if (!this.server) {
+				callback();
+				return;
+			}
 			GM_xmlhttpRequest({
 				method: 'POST',
 				url: this.server + 'preferences/' + (oldKey !== undefined ? "?apikey=" + oldKey : ""),
@@ -174,11 +179,12 @@
 
 		//Si no la tenemos guardada en local la buscamos en las suscripciones y la guardamos en local para evitar hacer cada vez una llamada para recuperar las suscripciones
 		if (!apiKey) {
-			var ajax = new XMLHttpRequest();
-			ajax.open("GET", "http://www.forocoches.com/foro/subscription.php?do=editfolders", false); //La buscamos en la carpeta falsa que se crea en las suscripciones
-			ajax.onreadystatechange = function () {
-				if (ajax.readyState == 4 && ajax.statusText == "OK") {
-					var documentResponse = $.parseHTML(ajax.responseText);
+			GM_xmlhttpRequest({
+				method: 'GET',
+				url: 'http://www.forocoches.com/foro/subscription.php?do=editfolders', //La buscamos en la carpeta falsa que se crea en las suscripciones
+				data: '',
+				onload: function (response) {
+					var documentResponse = $.parseHTML(response.responseText);
 					var folder = $(documentResponse).find("input[name='folderlist[50]']");
 					if (folder.length > 0) {
 						//la API key existe
@@ -186,8 +192,7 @@
 						sync.helper.setLocalValue("API_KEY", apiKey);
 					}
 				}
-			};
-			ajax.send();
+			});
 		}
 		return apiKey;
 	}
@@ -197,22 +202,22 @@
 	 * Comprueba que el guardado sea exitoso. En caso contrario insiste una y otra vez...
 	 */
 	function saveApiKey(apiKey) {
-		var ajax = new XMLHttpRequest();
-		ajax.open("POST", "http://www.forocoches.com/foro/subscription.php?do=doeditfolders", false);
-		ajax.onreadystatechange = function () {
-			if (ajax.readyState == 4 && ajax.statusText == "OK") {
+		var folderName = "shurkey-" + apiKey;
+		var securitytoken = $("input[name='securitytoken']").val(); //Numero de seguridad que genera el vbulletin para autenticar las peticiones
+
+		GM_xmlhttpRequest({
+			method: 'PUT',
+			url: 'http://www.forocoches.com/foro/subscription.php?do=doeditfolders',
+			data: 's=&securitytoken=' + securitytoken + '&do=doeditfolders&folderlist[50]=' + folderName + '&do=doeditfolders',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			onload: function (response) {
 				if (getApiKey() == false) { //comprobamos que se ha guardado. si no se ha guardado
 					saveApiKey(apiKey); //insistimos, hasta que se guarde o algo pete xD
 				}
 			}
-		};
-		var folderName = "shurkey-" + apiKey;
-		var securitytoken = $("input[name='securitytoken']").val(); //Numero de seguridad que genera el vbulletin para autenticar las peticiones
-		var params = "s=&securitytoken=" + securitytoken + "&do=doeditfolders&folderlist[50]=" + folderName + "&do=doeditfolders";
-		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		ajax.setRequestHeader("Content-length", params.length);
-		ajax.setRequestHeader("Connection", "close");
-		ajax.send(params); //Creamos la carpeta
+		});
 	}
 
 	/**
