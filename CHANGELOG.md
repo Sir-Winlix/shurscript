@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.289.0 `03/01/2015`
+
+**Features**
+
+* El módulo ImageGallery hace la búsqueda de imágenes de forma asíncrona y muestra una barra de progreso
+* Añadida la opción de especificar tu propio backend (servidor) debido a que el original de shurscript es de sólo lectura
+* Añadido icono a la aplicación
+
+**Bugfixes**
+
+* La función saveApiKey no guardaba correctamente la API Key si estaba en el frontend debido a que ahí no aparece el securitytoken
+* El módulo HighlightOP deformaba los quotes debido a algún cambio del foro, ya no hace falta la opción 'Buscar posts del OP' al estar integrada en el foro dentro de "Buscar en Tema"
+* El módulo ImageGallery no encontraba las imágenes debido a un cambio en el HTML que no coincidía con la expresión regular
+
+**Cambios**
+
+* Empezamos el cambio de las imágenes a PNG, también se optimizan para reducir su tamaño y se migran a Github 
+* Nuevos tiempos por defecto en los módulos Quotes y ThreadUpdater para no enfadar a nadie
+* En varios componentes "core" para soportar la opción de usar tu backend
+
+------------------------------------
+
 ## v0.288.0 `19/12/2014`
 
 **Features**
@@ -142,7 +164,7 @@
 * Solucionado problema con las notificaciones
 * Arreglado componente encargado de las actualizaciones
 * Arreglado problema con la migración de preferencias _(nuevas instalaciones)_
-	* Ahora se migrarán los hilos favoritos/ocultados manualmente e historial de citas
+    * Ahora se migrarán los hilos favoritos/ocultados manualmente e historial de citas
 
 ------------------------------------
 
@@ -215,9 +237,9 @@
 * Historial de las últimas citas leídas debajo de las nuevas
 * Botón en el listado de notificaciones para abrir todas las nuevas en pestañas
 * Ocultar hilos:
-	* Por usuario creador
-	* Por palabras clave en el título
-	* Manualmente
+    * Por usuario creador
+    * Por palabras clave en el título
+    * Manualmente
 * Resaltar y mostrar arriba hilos por palabras clave
 * Opción para mostrar los hilos favoritos y los destacados por encima del resto
 * Filtro rápido en los subforos y en los resultados de búsqueda
