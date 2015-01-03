@@ -8,7 +8,7 @@ Script de usuario para ForoCoches.com
 * **Hilo oficial**: [Hilo oficial en ForoCoches.com](http://shurscript.org/hilo)  
 * **Web**: [http://shurscript.org](http://shurscript.org)  
 * **Sugerencias**: [shurscript en UserVoice](https://shurscript.uservoice.com/)  
-* **Preguntas más frecuentes**: [F.A.Q en GitHub](https://github.com/TheBronx/shurscript/wiki/FAQ-(Indice))  
+* **Preguntas más frecuentes**: [F.A.Q en GitHub](https://github.com/igtroop/shurscript/wiki/FAQ-(Indice))  
 * **Colabora**: [haz una pequeña donación](http://shurscript.org/colabora)  
 
 <h2>Características:</h2>
@@ -36,7 +36,7 @@ Para instalar el script necesitas solamente dos cosas:
    + Para Internet Explorer: **U mad?**
 
 Una vez instalada la extensión para tu navegador simplemente instala _shurscript_ desde el siguiente enlace 
-(puede que tengas que esperar unos segundos): [Instalar _shurscript_](https://github.com/TheBronx/shurscript/raw/master/shurscript.user.js)<br>
+(puede que tengas que esperar unos segundos): [Instalar _shurscript_](https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js)<br>
 <br>
 Tras instalar el script, simplemente entra a ForoCoches y el script empezará a funcionar. Para configurar _shurscript_ pulsa en el botón "_shurscript_" y activa/desactiva y configura los módulos que quieras usar. ¡Que lo disfrutes, shur!
 <br>

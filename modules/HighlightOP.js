@@ -66,13 +66,11 @@
 			sessionStorage["op_" + currentThread] = op;
 
 			SHURSCRIPT.eventbus.on('parsePost', parsePost);
-			addFindOpPosts();
 		} else if (currentThread) {// If not in first page, we must load it to get OP's name.
 			// Check if we have the OP's name saved from another time.
 			if (sessionStorage["op_" + currentThread]) {
 				op = sessionStorage["op_" + currentThread];
 				SHURSCRIPT.eventbus.on('parsePost', parsePost);
-				addFindOpPosts();
 			} else {
 				SHURSCRIPT.eventbus.on('parsePost', savePost);
 				loadFirstPage(currentThread);
@@ -111,22 +109,9 @@
 	}
 
 	function highlightSavedPosts() {
-		addFindOpPosts();
 		for (var i = 0, n = nodes.length; i < n; i++) {
 			highlight(nodes[i]);
 		}
-	}
-
-	/**
-	 * Adds a link to find all OP's posts on this thread.
-	 */
-	function addFindOpPosts() {
-		var tdNextNode = document.getElementById("threadtools");
-		var trNode = tdNextNode.parentNode;
-		var newTd = document.createElement("TD");
-		newTd.className = 'vbmenu_control';
-		newTd.innerHTML = '<a href="/foro/search.php?do=process&amp;searchthreadid=' + currentThread + '&amp;searchuser=' + escape(op) + '&amp;exactname=1">Buscar posts del OP</a>';
-		trNode.insertBefore(newTd, tdNextNode);
 	}
 
 	function highlight(item) {
