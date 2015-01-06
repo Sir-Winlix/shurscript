@@ -386,6 +386,15 @@
 			}
 		);
 
+		//Quitar spoilers y reemplazarlos por su BBCode
+		$post.find("div[class='spoiler']").each(function () {
+				var warning_spoiler = $(this).prev();
+				
+				$(this).replaceWith("[SPOILER]" + $(this).html() + "[/SPOILER]");
+				warning_spoiler.replaceWith("");
+			}
+		);
+
 		return "[QUOTE=" + username + ";" + id + "]" + $post.html().trim() + "[/QUOTE]" + "<br><br>";
 	}
 
@@ -507,6 +516,8 @@
 		buttons.push(createButton("wrap0_code", "Envolver Etiquetas [CODE]", 'http://cdn.forocoches.com/foro/images/editor/code.gif'));
 		buttons.push(createButton("wrap0_html", "Envolver Etiquetas [HTML]", 'http://cdn.forocoches.com/foro/images/editor/html.gif'));
 		buttons.push(createButton("wrap0_php", "Envolver Etiquetas [PHP]", 'http://cdn.forocoches.com/foro/images/editor/php.gif'));
+		buttons.push('<td><img width="6" height="20" alt="" src="http://cdn.forocoches.com/foro/images/editor/separator.gif"></td>');
+		buttons.push(createButton("wrap0_spoiler", "Envolver [SPOILER] Etiquetas en el texto seleccionado", 'http://cdn.forocoches.com/foro/images/editor/spoiler.png'));
 		buttons.push('<td><img width="6" height="20" alt="" src="http://cdn.forocoches.com/foro/images/editor/separator.gif"></td>');
 
 		toolbar.after(buttons);
