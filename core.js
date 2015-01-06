@@ -341,7 +341,22 @@ function getCurrentThread() {
 		//Si no hay configurada ninguna URL de backend continuamos la carga para poder acceder a la configuración
 		if (!SHURSCRIPT.config.server)
 		{
+			// Usamos los parametros por defecto del shurscript-server
+			var default_server_config = {
+				"web": "http://shurscript.org/",
+				"fcThread": "https://github.com/igtroop/shurscript/wiki/Oficial",
+				"imagesURL": "https://raw.github.com/igtroop/shurscript/anycloud/images/",
+				"repositoryURL": "https://github.com/igtroop/shurscript/",
+				"updateURL": "https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js",
+				"installURL": "https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js",
+				"visualChangelog": "https://github.com/igtroop/shurscript/blob/anycloud/CHANGELOG.md",
+				"visualFAQ": "https://github.com/igtroop/shurscript/wiki/FAQ-(Indice)",
+				"rawChangelog": "https://github.com/igtroop/shurscript/raw/anycloud/CHANGELOG.md",
+				"imgurClientID": "e115ac41fea372d"
+			}
+			
 			core.helper.log("Cargando el script sin URL de backend");
+			_.extend(SHURSCRIPT.config, default_server_config);
 			core.loadNextComponent();
 			return;
 		}
