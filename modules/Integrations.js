@@ -68,15 +68,18 @@
 
 	function parseMediacru(element) {
 		// Carga videos de mediacru.sh
-		element.find('a[href*="mediacru.sh"]').each(function() {
-			var url = $(this).attr('href').replace(/.*?:\/\//g, "");
-			var video = document.createElement('video');
-			video.src = '//cdn.'+url+'.mp4';
-			video.src = '//cdn.'+url+'.webm';
-			setVideoAttributes(video);
+		element.find('a[href*="mediacru"]').each(function() {
+			var re = /(https?):\/\/mediacru(?:\.sh|sh\.net)\/([^\t\r\n#]+)/i;
+			var match = re.exec($(this).attr('href'));
+			if (match != null) {
+				var video = document.createElement('video');
+				video.src = match[1] + '://cdn.mediacru.sh/' + match[2] + '.mp4';
+				video.src = match[1] + '://cdn.mediacru.sh/' + match[2] + '.webm';
+				setVideoAttributes(video);
 
-			$(this).append('<br>');
-			$(this).after(video);
+				$(this).append('<br>');
+				$(this).after(video);
+			}
 		});
 	}
 
