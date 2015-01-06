@@ -13,7 +13,7 @@
 		}
 	});
 
-	var announcesUrl = 'http://cloud.shurscript.org:8080/announces';
+	var announcesUrl = 'http://igtroop.github.io/announces';
 	var announces;
 	var readAnnounces;
 
