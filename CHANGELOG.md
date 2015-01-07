@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v0.289.1 `07/01/2015`
+
+**Bugfixes**
+
+* Core: Si no hay backend usamos la configuración por defecto del shurscript-server, esto permite que se vean los iconos correctamente.
+* Integrations: Se mejora el proceso de los WEBM en el servidor mediacrush, aceptando tanto mediacru.sh como mediacrush.net y evitando problemas con el carácter # en las URL’s.
+
+**Cambios**
+
+* Actualizadas rutas de los iconos y aviso de hosting de DigitalOcean
+* AutoSpoiler: Al estar el spoiler ya implementado de serie en el foro el módulo pasa a cambiar la forma de visualizarlo, se pueda ocultar o desocultar con el diseño que ya usaba el módulo anteriormente.
+* BetterPosts: Se añade el botón de spoiler al editor de respuesta rápida, al citar un spoiler lo reconstruye con su BBCode original.
+
+------------------------------------
+
 ## v0.289.0 `03/01/2015`
 
 **Features**
