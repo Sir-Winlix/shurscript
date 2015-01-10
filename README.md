@@ -1,15 +1,13 @@
-![Shurscript Logo by Fritanga](http://dl.dropboxusercontent.com/u/1066873/shurheading.png)
+![Shurscript Logo by Fritanga](https://raw.githubusercontent.com/igtroop/shurscript/anycloud/images/shurheading.png)
 
   
 .shurscript
 ==========
 
 Script de usuario para ForoCoches.com
-* **Hilo oficial**: [Hilo oficial en ForoCoches.com](http://shurscript.org/hilo)  
-* **Web**: [http://shurscript.org](http://shurscript.org)  
+* **Web**: [http://http://igtroop.github.io/shurscript](http://http://igtroop.github.io/shurscript)  
 * **Sugerencias**: [shurscript en UserVoice](https://shurscript.uservoice.com/)  
 * **Preguntas más frecuentes**: [F.A.Q en GitHub](https://github.com/igtroop/shurscript/wiki/FAQ-(Indice))  
-* **Colabora**: [haz una pequeña donación](http://shurscript.org/colabora)  
 
 <h2>Características:</h2>
 
@@ -40,11 +38,11 @@ Una vez instalada la extensión para tu navegador simplemente instala _shurscrip
 <br>
 Tras instalar el script, simplemente entra a ForoCoches y el script empezará a funcionar. Para configurar _shurscript_ pulsa en el botón "_shurscript_" y activa/desactiva y configura los módulos que quieras usar. ¡Que lo disfrutes, shur!
 <br>
-![Opciones](http://shurscript.org/img/faq/preferencias.png)<br>
+![Opciones](https://raw.githubusercontent.com/igtroop/shurscript/anycloud/images/preferencias.png)<br>
 
 
 <h2>Contribuye al código</h2>
 _shurscript_ está desarrollado de forma modular, de forma que cualquiera puede colaborar escribiendo su propio módulo.<br>
-Todo el código está publicado en Github (ramas `master`, `dev` y `experimental`) de forma que también puedes contribuir revisando errores y mejorando partes ya existentes.<br>
+Todo el código está publicado en Github (ramas `master`, `dev`, `experimental` y `anycloud`) de forma que también puedes contribuir revisando errores y mejorando partes ya existentes.<br>
 
-Por supuesto también puedes colaborar aportando ideas, sugerencias, probando la rama de desarrollo o [haciendo una contribución](http://shurscript.org/colabora).
+Por supuesto también puedes colaborar aportando ideas, sugerencias, probando la rama de desarrollo.

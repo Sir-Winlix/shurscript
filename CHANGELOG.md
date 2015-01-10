@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.290.0 `10/01/2015`
+
+**Features**
+
+* Añadida opción para almacenar la configuración de shurscript en local, evitando tener que usar el shurscript-server. Puedes configurarlo en preferencias.
+
+**Cambios**
+
+* En las nuevas instalaciones del script la configuración por defecto será almacenamiento en local, eliminando su dependencia de un backend.
+
+------------------------------------
+
 ## v0.289.1 `07/01/2015`
 
 **Bugfixes**
