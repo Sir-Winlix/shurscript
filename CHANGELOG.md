@@ -1,6 +1,75 @@
 # CHANGELOG
 
-## v0.24.1 `19/11/2014`
+## v0.290.0 `10/01/2015`
+
+**Features**
+
+* Añadida opción para almacenar la configuración de shurscript en local, evitando tener que usar el shurscript-server. Puedes configurarlo en preferencias.
+
+**Cambios**
+
+* En las nuevas instalaciones del script la configuración por defecto será almacenamiento en local, eliminando su dependencia de un backend.
+
+------------------------------------
+
+## v0.289.1 `07/01/2015`
+
+**Bugfixes**
+
+* Core: Si no hay backend usamos la configuración por defecto del shurscript-server, esto permite que se vean los iconos correctamente.
+* Integrations: Se mejora el proceso de los WEBM en el servidor mediacrush, aceptando tanto mediacru.sh como mediacrush.net y evitando problemas con el carácter # en las URL’s.
+
+**Cambios**
+
+* Actualizadas rutas de los iconos y aviso de hosting de DigitalOcean
+* AutoSpoiler: Al estar el spoiler ya implementado de serie en el foro el módulo pasa a cambiar la forma de visualizarlo, se pueda ocultar o desocultar con el diseño que ya usaba el módulo anteriormente.
+* BetterPosts: Se añade el botón de spoiler al editor de respuesta rápida, al citar un spoiler lo reconstruye con su BBCode original.
+
+------------------------------------
+
+## v0.289.0 `03/01/2015`
+
+**Features**
+
+* El módulo ImageGallery hace la búsqueda de imágenes de forma asíncrona y muestra una barra de progreso
+* Añadida la opción de especificar tu propio backend (servidor) debido a que el original de shurscript es de sólo lectura
+* Añadido icono a la aplicación
+
+**Bugfixes**
+
+* La función saveApiKey no guardaba correctamente la API Key si estaba en el frontend debido a que ahí no aparece el securitytoken
+* El módulo HighlightOP deformaba los quotes debido a algún cambio del foro, ya no hace falta la opción 'Buscar posts del OP' al estar integrada en el foro dentro de "Buscar en Tema"
+* El módulo ImageGallery no encontraba las imágenes debido a un cambio en el HTML que no coincidía con la expresión regular
+
+**Cambios**
+
+* Empezamos el cambio de las imágenes a PNG, también se optimizan para reducir su tamaño y se migran a Github 
+* Nuevos tiempos por defecto en los módulos Quotes y ThreadUpdater para no enfadar a nadie
+* En varios componentes "core" para soportar la opción de usar tu backend
+
+------------------------------------
+
+## v0.288.0 `19/12/2014`
+
+**Features**
+
+* Modo lectura para leer tochos de forma más cómoda
+* Botón para añadir Spoilers y que aparezcan ocultos de verdad al leerlos en el foro
+* Modo Galería para ver todas las imágenes de un hilo de un vistazo y quitando las repetidas
+* Listado de últimos hilos visitados, hilos que has posteado e hilos que has abierto
+* Integrar Vocaroos directamente en los posts
+
+**Bugfixes**
+
+* A los usuarios nuevos del script, no les aparecía la opción de añadir hilos a Favoritos
+* Citas y menciones. Ahora, con menos retraso.
+* Y otros tantos arreglillos, como siempre.
+
+**Cambios**
+
+* Ahora el actualizador de hilos automático no se activa hasta que no lleguemos al final de la página, para evitar hacer peticiones innecesarias contra el servidor de FC
+
+### v0.24.1 `19/11/2014`
 
 **Bugfixes**
 
@@ -122,7 +191,7 @@
 * Solucionado problema con las notificaciones
 * Arreglado componente encargado de las actualizaciones
 * Arreglado problema con la migración de preferencias _(nuevas instalaciones)_
-	* Ahora se migrarán los hilos favoritos/ocultados manualmente e historial de citas
+    * Ahora se migrarán los hilos favoritos/ocultados manualmente e historial de citas
 
 ------------------------------------
 
@@ -195,9 +264,9 @@
 * Historial de las últimas citas leídas debajo de las nuevas
 * Botón en el listado de notificaciones para abrir todas las nuevas en pestañas
 * Ocultar hilos:
-	* Por usuario creador
-	* Por palabras clave en el título
-	* Manualmente
+    * Por usuario creador
+    * Por palabras clave en el título
+    * Manualmente
 * Resaltar y mostrar arriba hilos por palabras clave
 * Opción para mostrar los hilos favoritos y los destacados por encima del resto
 * Filtro rápido en los subforos y en los resultados de búsqueda

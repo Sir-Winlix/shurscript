@@ -1,0 +1,390 @@
+.reader-link:before {
+	content: url("http://i.imgur.com/oo0vt52.png");
+	display: inline-block;
+	margin-right: 4px;
+	vertical-align: middle;
+}
+
+#reader {
+	z-index: 1000;
+}
+
+#reader .modal-dialog {
+	margin-top: 100%;
+	transition: margin-top 1s !important;
+}
+
+#reader.in, #reader.in .modal-dialog {
+	margin-top: 0;
+}
+
+#reader .modal-header .close {
+	margin-right: -30px;
+	margin-top: 0px;
+}
+
+#reader + .modal-backdrop {
+	z-index: 999;
+	background-color: #F1F1F1;
+}
+
+#reader + .modal-backdrop.in {
+	animation: fadein 2s;
+	opacity: 0.95;
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0.95;
+	}
+}
+
+#reader .modal-header {
+	background: #FAFAFA;
+	width: 100%;
+}
+#reader .modal-content {
+	box-shadow: 0 0px 5px rgba(0, 0, 0, 0.10) !important;
+	border-radius: 0px;
+}
+
+#reader .modal-body {
+	padding: 20px 50px;
+}
+
+#reader .modal-header {
+	padding: 20px 50px 10px 50px;
+}
+
+#reader .modal-title {
+	font-family: inherit !important;
+	font-size: 26px !important;
+	text-align: left;
+}
+
+#reader, #reader p {
+	color: #4b4b4b;
+	font-size: 18px;
+	font-family: "Sentinel SSm A", "Sentinel SSm B", Palatino Linotype, Book Antiqua, Palatino, serif !important;
+}
+
+#reader .modal-body > .font-size-14 {
+	font-size: 14px;
+}
+
+#reader .modal-body > .font-size-16 {
+	font-size: 16px;
+}
+
+#reader .modal-body > .font-size-18 {
+	font-size: 18px;
+}
+
+#reader .modal-body > .font-size-20 {
+	font-size: 20px;
+}
+
+#reader .modal-body > .font-size-22 {
+	font-size: 22px;
+}
+
+#reader .modal-body > .font-size-24 {
+	font-size: 24px;
+}
+
+#reader .modal-body > .font-size-26 {
+	font-size: 26px;
+}
+
+#reader font[size='1'] {
+	font-size: 80% !important;
+}
+
+#reader font[size='2'] {
+	font-size: 100% !important;
+}
+
+#reader font[size='3'] {
+	font-size: 120% !important;
+}
+
+#reader font[size='4'] {
+	font-size: 140% !important;
+}
+
+#reader font[size='5'] {
+	font-size: 160% !important;
+}
+
+#reader font[size='6'] {
+	font-size: 180% !important;
+}
+
+#reader font[size='7'] {
+	font-size: 200% !important;
+}
+
+#reader img:not(.inlineimg) {
+	display: block;
+	margin: 10px auto;
+	max-width: 100%;
+}
+
+#reader .quote {
+	background: none repeat scroll 0 0 #f1f1f1;
+	border: 1px solid gray;
+	padding: 10px;
+}
+
+#reader .font-size-changer {
+	float: right;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+#reader .smaller-font {
+	cursor: pointer;
+	font-size: 14px;
+}
+
+#reader .smaller-font:not([data-font-size='14']):hover, 
+#reader .larger-font:not([data-font-size='26']):hover {
+	text-decoration: underline;
+}
+
+#reader .smaller-font[data-font-size='14'] {
+	color: lightgray;
+	cursor: default;
+}
+
+#reader.dark .smaller-font[data-font-size='14'] {
+	color: #666;
+}
+
+#reader .larger-font {
+	cursor: pointer;
+	font-size: 18px;
+}
+
+#reader .larger-font[data-font-size='26'] {
+	color: lightgray;
+	cursor: default;
+}
+
+#reader.dark .larger-font[data-font-size='26'] {
+	color: #666;
+}
+
+#reader .back-to-thread {
+	display: block;
+	text-align: center;
+	margin-top: 20px;
+	color: gray;
+	cursor: pointer;
+}
+
+#reader .modal-subtitle {
+	height: 25px;
+}
+
+#reader .fixed .modal-subtitle {
+	margin-top: -38px;
+}
+
+#reader .thread-info {
+	float: left;
+}
+
+#reader .modal-header-wrapper {
+	text-align: center; 
+	width: 100%;
+}
+
+#reader .arrow-top {
+	display: none;
+	cursor: pointer;
+	position: absolute;
+}
+
+#reader .fixed .arrow-top {
+	display: inline-block;
+}
+
+#reader .arrow-top:hover {
+	text-decoration: underline;
+}
+
+#reader .modal-header.fixed {
+	position: fixed !important; 
+	z-index: 10001;
+	width: 778px;
+	text-align: center;
+	height: 50px;
+	transition: height 2s;
+	overflow: hidden;
+	display: inline-block;
+	padding: 13px 50px;
+}
+
+#reader .fixed .modal-title {
+	display: none;
+}
+
+#reader .add-bookmark {
+	display: none;
+	cursor: pointer;
+	float: left;
+	font-size: 16px;
+}
+
+#reader .add-bookmark:hover:before {
+	text-decoration: none;
+}
+
+#reader .add-bookmark:hover {
+	text-decoration: underline;
+}
+
+#reader .fixed .add-bookmark {
+	display: inline-block;
+	left: 50px;
+	position: absolute;
+}
+
+#reader .modal-body .suitable-bookmark-position {
+	display: block;
+	min-height: 28.5px;
+}
+#reader .modal-body .suitable-bookmark-position.active {
+	cursor: pointer;
+}
+
+#reader .bookmark-position-selector {
+	display: none;
+	cursor: pointer;
+	width: 100%;
+	height: 50px;
+	margin-left: -50px;
+	margin-top: -15px;
+	padding-top: 25px;
+	position: absolute;
+}
+
+.bookmark-position-selector:after {
+	border-bottom: 1px dashed gray;
+	content: "";
+	display: block;
+	width: 100%;
+}
+
+.bookmark-position-selector .reader-bookmark {
+	background: #b00;
+	height: 40px;
+	position: absolute;
+	top: 25px;
+	right: 18px;
+	width: 20px;
+	display: block;
+	font-size: 22px;
+	text-align: center;
+	color: white;
+}
+
+.bookmark-position-selector:not(.adding) .reader-bookmark:hover:before {
+	content: '\00D7'; /* x */
+}
+
+.reader-bookmark:after {
+	content: '';
+	display: block;
+	border: 10px solid transparent;
+	border-bottom-color: #fff;
+	position: absolute;
+	bottom: 0;
+}
+
+.add-bookmark-help {
+	background: none repeat scroll 0 0 #fafafa;
+	font-size: 15px;
+	height: 50px;
+	line-height: 50px;
+	margin-left: -50px;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	display: none;
+}
+
+.add-bookmark-help span {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* Temas */
+
+#reader .theme {
+	width: 14px;
+	height: 14px;
+	display: inline-block;
+	margin-right: 2px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#reader .theme[data-theme="light"] {
+	background: white;
+	border: 1px solid gray;
+}
+
+#reader .theme[data-theme="sepia"] {
+	background: #ffecac;
+	border: 1px solid #e5a33a;
+}
+
+#reader .theme[data-theme="dark"] {
+	background: #333;
+	border: 1px solid lightgray;
+}
+
+#reader .modal-header, #reader .modal-body, #reader, #reader p, #reader .modal-header, #reader .reader-bookmark:after {
+	transition: background-color 0.2s, color 0.2s, border-color 0.2s !important;
+}
+
+/* Dark theme */
+
+#reader.dark .close {
+	color: white;
+}
+
+#reader.dark + .modal-backdrop {
+	background-color: #434343;
+}
+
+#reader.dark .modal-header {
+	background-color: #222;
+}
+
+#reader.dark .modal-body {
+	background-color: #333;
+}
+
+#reader.dark, #reader.dark p {
+	color: lightgray;
+}
+
+#reader.dark .modal-header {
+	border-bottom-color: #111;
+}
+
+#reader.dark .add-bookmark-help {
+	background-color: #222;
+}
+
+#reader.dark .reader-bookmark:after {
+	border-bottom-color: #333;
+}

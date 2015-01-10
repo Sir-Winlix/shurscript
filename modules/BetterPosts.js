@@ -148,6 +148,17 @@
 				}, 500);
 			});
 		}
+		
+		//Enviar el mensaje mediante Alt + S
+        $(getEditorBody()).keypress(function(e) {
+			var isMac = navigator.userAgent.indexOf('Macintosh') != -1;
+			if ((isMac && (e.which === 8747 || e.keyCode === 83))
+				|| (!isMac && e.key === 's' && e.altKey))  {
+				$("input[name='sbutton']").click();
+				e.preventDefault();
+				e.stopPropagation();
+			}
+        });
 	}
 
 	/* Funcionalidades que funcionan en cualquier tipo de editor, WYSIWYG o no */
@@ -375,6 +386,15 @@
 			}
 		);
 
+		//Quitar spoilers y reemplazarlos por su BBCode
+		$post.find("div[class='spoiler']").each(function () {
+				var warning_spoiler = $(this).prev();
+				
+				$(this).replaceWith("[SPOILER]" + $(this).html() + "[/SPOILER]");
+				warning_spoiler.replaceWith("");
+			}
+		);
+
 		return "[QUOTE=" + username + ";" + id + "]" + $post.html().trim() + "[/QUOTE]" + "<br><br>";
 	}
 
@@ -493,20 +513,40 @@
 		buttons.push(createButton("undo", "Deshacer"));
 		buttons.push(createButton("redo", "Rehacer"));
 		buttons.push('<td><img width="6" height="20" alt="" src="http://cdn.forocoches.com/foro/images/editor/separator.gif"></td>');
-		buttons.push(createButton("wrap0_code", "Envolver Etiquetas [CODE]", 'code'));
-		buttons.push(createButton("wrap0_html", "Envolver Etiquetas [HTML]", 'html'));
-		buttons.push(createButton("wrap0_php", "Envolver Etiquetas [PHP]", 'php'));
+		buttons.push(createButton("wrap0_code", "Envolver Etiquetas [CODE]", 'http://cdn.forocoches.com/foro/images/editor/code.gif'));
+		buttons.push(createButton("wrap0_html", "Envolver Etiquetas [HTML]", 'http://cdn.forocoches.com/foro/images/editor/html.gif'));
+		buttons.push(createButton("wrap0_php", "Envolver Etiquetas [PHP]", 'http://cdn.forocoches.com/foro/images/editor/php.gif'));
+		buttons.push('<td><img width="6" height="20" alt="" src="http://cdn.forocoches.com/foro/images/editor/separator.gif"></td>');
+		buttons.push(createButton("wrap0_spoiler", "Envolver [SPOILER] Etiquetas en el texto seleccionado", 'http://cdn.forocoches.com/foro/images/editor/spoiler.png'));
 		buttons.push('<td><img width="6" height="20" alt="" src="http://cdn.forocoches.com/foro/images/editor/separator.gif"></td>');
 
 		toolbar.after(buttons);
+		
+		//Boton para tachar [S][/S]
+		$('div[id$="_cmd_underline"]').parent().after(createButton('strikethrough', 'Tachar', 'http://i.imgur.com/FUtpG3O.gif', function() {
+			var selection = getEditor().editwin.getSelection();
+			var range = selection.getRangeAt(0);
+			var selectedText = selection.toString();
+			
+			range.deleteContents();
+			var newNode = document.createTextNode('[S]' + selectedText + '[/S]');
+			range.insertNode(newNode);
+
+			range.selectNode(newNode);
+			range.setStart(newNode, 3);
+			range.setEnd(newNode, 3 + selectedText.length);
+		}));
 	}
 
-	function createButton(action, text, icon) {
-		var img = icon ? icon : action;
-		var button = $('<div id="vB_Editor_001_cmd_' + action + '" class="imagebutton" style="background: none repeat scroll 0% 0% rgb(225, 225, 226); color: rgb(0, 0, 0); padding: 1px; border: medium none;"><img width="21" height="20" alt="' + text + '" src="http://cdn.forocoches.com/foro/images/editor/' + img + '.gif" title="' + text + '"></div>')[0];
+	function createButton(actionId, text, icon, customAction) {
+		var img = icon ? icon : 'http://cdn.forocoches.com/foro/images/editor/' + actionId + '.gif';
+		var button = $('<div id="vB_Editor_001_cmd_' + actionId + '" class="imagebutton" style="background: none repeat scroll 0% 0% rgb(225, 225, 226); color: rgb(0, 0, 0); padding: 1px; border: medium none;"><img width="21" height="20" alt="' + text + '" src="' + img + '" title="' + text + '"></div>')[0];
 		button.editorid = getEditor().editorid;
-		button.cmd = action;
+		button.cmd = actionId;
 		button.onclick = button.onmousedown = button.onmouseover = button.onmouseout = genericHandler;
+		if (customAction) {
+			button.onclick = customAction;
+		}
 		return $('<td></td>').append(button);
 	}
 

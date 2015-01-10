@@ -16,7 +16,8 @@ var SHURSCRIPT = {
 		getResourceURL: GM_getResourceURL
 	},
 	config: {
-		server: "http://cloud.shurscript.org:8080/"
+		server: "",
+		store_mode: ""
 	},
 	environment: {
 		page: location.pathname.indexOf("/foro") !== -1 ? location.pathname.replace("/foro", "") : "frontpage",
@@ -27,6 +28,20 @@ var SHURSCRIPT = {
 		}
 	}
 };
+
+// Usamos los parametros por defecto del shurscript-server
+var default_server_config = {
+	"web": "http://shurscript.org/",
+	"fcThread": "https://github.com/igtroop/shurscript/wiki/Oficial",
+	"imagesURL": "https://raw.github.com/igtroop/shurscript/anycloud/images/",
+	"repositoryURL": "https://github.com/igtroop/shurscript/",
+	"updateURL": "https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js",
+	"installURL": "https://github.com/igtroop/shurscript/raw/anycloud/shurscript.user.js",
+	"visualChangelog": "https://github.com/igtroop/shurscript/blob/anycloud/CHANGELOG.md",
+	"visualFAQ": "https://github.com/igtroop/shurscript/wiki/FAQ-(Indice)",
+	"rawChangelog": "https://github.com/igtroop/shurscript/raw/anycloud/CHANGELOG.md",
+	"imgurClientID": "e115ac41fea372d"
+}
 
 function getCurrentPage() {
 	var r;
@@ -335,7 +350,38 @@ function getCurrentThread() {
 			closeButton: false
 		});
 
-		//Recuperamos las configuraciones del servidor
+		var new_backend_url = core.helper.getLocalValue("BACKEND_URL", "");
+		var new_config_store_mode = core.helper.getLocalValue("CONFIG_STORE_MODE");
+
+		// En una instalación migrada antes de poder configurar el modo local/cloud y con backend configurado activamos el modo cloud automaticamente
+		if (new_config_store_mode === undefined) {
+			if (new_backend_url != "") {
+				core.helper.setLocalValue("CONFIG_STORE_MODE", "cloud");
+				SHURSCRIPT.config.store_mode = "cloud";
+			}
+			else  {
+				core.helper.setLocalValue("CONFIG_STORE_MODE", "local");
+				SHURSCRIPT.config.store_mode = "local";
+			}
+		}
+
+		if (SHURSCRIPT.config.store_mode == "local")
+		{
+			_.extend(SHURSCRIPT.config, default_server_config);
+			core.loadNextComponent();
+			return;
+		}
+
+		//Si no hay configurada ninguna URL de backend continuamos la carga para poder acceder a la configuración
+		if (!SHURSCRIPT.config.server)
+		{
+			core.helper.log("Cargando el script en modo cloud sin URL de backend");
+			_.extend(SHURSCRIPT.config, default_server_config);
+			core.loadNextComponent();
+			return;
+		}
+
+		//Si hay configurada URL de backend recuperamos las configuraciones del servidor
 		$.ajax({
 			type: 'GET',
 			url: SHURSCRIPT.config.server + 'config-' + SHURSCRIPT.scriptBranch
@@ -358,6 +404,9 @@ function getCurrentThread() {
 					});
 				}, 3000);
 			}
+			// TODO [igtroop]: aunque falle lanzamos el cargador de componentes y modulos para poder acceder a la configuración
+			_.extend(SHURSCRIPT.config, default_server_config);
+			core.loadNextComponent();
 		});
 
 	};
@@ -389,6 +438,7 @@ function getCurrentThread() {
 		// TODO [ikaros45 28.03.2014]: lo mismo aqui... no hay que comprobar si existe!
 		if (_.isFunction(component.load)) {
 			component.load(); // sin callback
+			core.helper.log("Cargado componente " + component.id);
 		}
 
 		core.loadNextComponent();

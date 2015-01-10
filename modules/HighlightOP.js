@@ -54,28 +54,23 @@
 		currentThread = SHURSCRIPT.environment.thread.id;
 		currentPage = SHURSCRIPT.environment.thread.page;
 		username = mod.helper.environment.user.name.toLowerCase();
-		contacts = mod.preferences.contacts.split(/\s*,\s*/);
-		for (var i = 0, n = contacts.length; i < n; i++) {
-			contacts[i] = contacts[i].toLowerCase();
-		}
+		contacts = mod.preferences.contacts.toLowerCase().split(/\s*,\s*/);
 
 		// Add CSS rules
-		GM_addStyle(".op_post, .op_quote { border: 1px solid " + mod.preferences.opPostsColor + " !important; border-left: 5px solid " + mod.preferences.opPostsColor + " !important; } .op_post td.alt2 { width: 171px; }");
-		GM_addStyle(".my_post, .my_quote { border: 1px solid " + mod.preferences.myPostsColor + " !important; border-left: 5px solid " + mod.preferences.myPostsColor + " !important; } .my_post td.alt2 { width: 171px; }");
-		GM_addStyle(".contacts_post, .contacts_quote { border: 1px solid " + mod.preferences.contactsColor + " !important; border-left: 5px solid " + mod.preferences.contactsColor + " !important; } .contacts_post td.alt2 { width: 171px; }");
+		GM_addStyle(".op_post, .op_quote { border: 1px solid " + mod.preferences.opPostsColor + " !important; border-left: 5px solid " + mod.preferences.opPostsColor + " !important; } .op_post td.alt2 { }");
+		GM_addStyle(".my_post, .my_quote { border: 1px solid " + mod.preferences.myPostsColor + " !important; border-left: 5px solid " + mod.preferences.myPostsColor + " !important; } .my_post td.alt2 { }");
+		GM_addStyle(".contacts_post, .contacts_quote { border: 1px solid " + mod.preferences.contactsColor + " !important; border-left: 5px solid " + mod.preferences.contactsColor + " !important; } .contacts_post td.alt2 { }");
 
 		if (currentPage == 1) {
 			op = getOpFrom(document.querySelector("#posts div.page"));
 			sessionStorage["op_" + currentThread] = op;
 
 			SHURSCRIPT.eventbus.on('parsePost', parsePost);
-			addFindOpPosts();
 		} else if (currentThread) {// If not in first page, we must load it to get OP's name.
 			// Check if we have the OP's name saved from another time.
 			if (sessionStorage["op_" + currentThread]) {
 				op = sessionStorage["op_" + currentThread];
 				SHURSCRIPT.eventbus.on('parsePost', parsePost);
-				addFindOpPosts();
 			} else {
 				SHURSCRIPT.eventbus.on('parsePost', savePost);
 				loadFirstPage(currentThread);
@@ -85,7 +80,7 @@
 
 	function parsePost(event, post) {
 		highlight({'user': post.author.toLowerCase(), 'type': 'post', 'node': post.elementTable[0]});
-		if (mod.preferences.quotes) {
+		if (!post.ignored && mod.preferences.quotes) {
 			var quotes = post.content[0].getElementsByClassName('alt2');
 			for (var i = 0, n = quotes.length; i < n; i++) {
 				var elem = quotes[i].getElementsByTagName("B");
@@ -101,7 +96,7 @@
 			parsePost(event, post);
 		} else {
 			nodes.push({'user': post.author.toLowerCase(), 'type': 'post', 'node': post.elementTable[0]});
-			if (mod.preferences.quotes) {
+			if (!post.ignored && mod.preferences.quotes) {
 				var quotes = post.content[0].getElementsByClassName('alt2');
 				for (var i = 0, n = quotes.length; i < n; i++) {
 					var elem = quotes[i].getElementsByTagName("B");
@@ -114,22 +109,9 @@
 	}
 
 	function highlightSavedPosts() {
-		addFindOpPosts();
 		for (var i = 0, n = nodes.length; i < n; i++) {
 			highlight(nodes[i]);
 		}
-	}
-
-	/**
-	 * Adds a link to find all OP's posts on this thread.
-	 */
-	function addFindOpPosts() {
-		var tdNextNode = document.getElementById("threadtools");
-		var trNode = tdNextNode.parentNode;
-		var newTd = document.createElement("TD");
-		newTd.className = 'vbmenu_control';
-		newTd.innerHTML = '<a href="/foro/search.php?do=process&amp;searchthreadid=' + currentThread + '&amp;searchuser=' + escape(op) + '&amp;exactname=1">Buscar posts del OP</a>';
-		trNode.insertBefore(newTd, tdNextNode);
 	}
 
 	function highlight(item) {

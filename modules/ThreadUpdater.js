@@ -10,10 +10,10 @@
 		domain: ['/showthread.php'],
 		initialPreferences: {
 			enabled: true,
-			activeTabPeriodicity: 10000,
-			hiddenTabPeriodicity: 30000,
+			activeTabPeriodicity: 30000,
+			hiddenTabPeriodicity: 'off',
 			loadAutomatically: false,
-			nextPageButton: false
+			nextPageButton: false,
 		},
 		preferences: {}
 	});
@@ -47,10 +47,11 @@
 			}),
 			creOpt({
 				type: 'checkbox', mapsTo: 'nextPageButton', caption: 'Mostrar siempre el botón para ir a la siguiente página, no solo cuando haya una nueva.'
-			})
+			}),
 		];
 	};
 
+	var postsPerPage;// configuración de número de posts por página
 	var numPostsBefore;// cantidad de posts al cargar el hilo
 	var isLastPage;// ¿estamos en la última página del hilo?
 	var isOpen = true;// ¿está abierto el hilo? si está cerrado el módulo no se ejecuta
@@ -81,26 +82,23 @@
 	};
 
 	mod.onNormalStart = function () {
-		shownPosts = document.querySelectorAll("#posts > div[align]");
+		postsPerPage = +document.getElementsByName('pp')[0].value;
+		shownPosts = document.querySelectorAll('#posts > div[align]');
 		numPostsBefore = shownPosts.length;
-		isLastPage = document.getElementsByClassName("pagenav").length
-			? document.getElementsByClassName("pagenav")[0].querySelector("a[rel='next']") === null
+		isLastPage = document.getElementsByClassName('pagenav').length
+			? document.getElementsByClassName('pagenav')[0].querySelector('a[rel="next"]') === null
 			: true;// solo hay una página
 		thread = SHURSCRIPT.environment.thread.id;
 		page = SHURSCRIPT.environment.thread.page;
 
 		// comprobar si hay nuevos posts si la página no está completa o es la última
-		if (numPostsBefore < 30 || isLastPage) {
-			// comprobar más tarde de nuevo si hay nuevos posts
-			createTimeout();
-
-			// crear el elemento ya para poder reservar su hueco
-			createButton();
+		if (numPostsBefore < postsPerPage || isLastPage) {
+			createTimeout();// comprobar más tarde de nuevo si hay nuevos posts
+			createButton();// crear el elemento ya para poder reservar su hueco
 
 			/* Añadir evento para saber cuándo la pestaña adquiere el foco */
-			document.addEventListener("visibilitychange", function () {
+			document.addEventListener('visibilitychange', function () {
 				var remaining = timeoutTime - (+new Date());// tiempo restante para el timeout
-
 				var timeoutActive = stopTimeout();
 
 				if (document.hidden) {
@@ -128,27 +126,23 @@
 			SHURSCRIPT.eventbus.on('quickReply', function (event, status, numNewPosts) {
 				if (status === 'submit') {
 					cancelar = true;
-					// quitar timeout actual
-					stopTimeout();
-
-					// ocultar el botón
-					showButton(false);
-
-					// restablecer el título
-					document.title = pageTitle;
+					stopTimeout();// quitar timeout actual
+					showButton(false);// ocultar el botón
+					document.title = pageTitle;// restablecer el título
+					changeFavicon(0);
 				} else if (status === 'done') {
 					numPostsBefore += numNewPosts;
 
 					// actualizar el listado de posts que están visibles (todos los posts cargados se meten en un <div>)
-					shownPosts = document.querySelectorAll("#posts > div[align], #posts > div > div[align]");
+					shownPosts = document.querySelectorAll('#posts > div[align], #posts > div > div[align]');
 
 					// comprobar si se ha llenado la página
-					if (numPostsBefore <= 30) {
+					if (numPostsBefore <= postsPerPage) {
 						// activar el timeout de nuevo
 						createTimeout();
 					} else {
 						// mostrar enlace para ir a la siguiente página
-						showButton("Hay una nueva página", "showthread.php?t=" + thread + "&page=" + (+page + 1));
+						newPage();
 					}
 				} else if (status === 'error') {
 					// si ha habido un error vuelve a mostrar el botón
@@ -157,22 +151,22 @@
 			});
 		} else if (mod.preferences.nextPageButton) {
 			createButton();
-			showButton("Ir a la página siguiente", "showthread.php?t=" + thread + "&page=" + (+page + 1));
+			newPage('Ir a la página siguiente');
 		}
 	};
 
 	function createButton() {
-		GM_addStyle("#shurscript-newposts {width:100%; margin:0; height: 32px; padding: 0; line-height: 200%;}");
+		GM_addStyle('#shurscript-newposts {width:100%; margin:0; height: 32px; padding: 0; line-height: 200%;}');
 
-		var shurscriptWrapper = document.createElement("div");
-		shurscriptWrapper.className = "shurscript";
-		newPostsElem = document.createElement("a");
-		newPostsElem.id = "shurscript-newposts";
-		newPostsElem.className = "btn btn-success";
-		newPostsElem.style.display = "none";
+		var shurscriptWrapper = document.createElement('div');
+		shurscriptWrapper.className = 'shurscript';
+		newPostsElem = document.createElement('a');
+		newPostsElem.id = 'shurscript-newposts';
+		newPostsElem.className = 'btn btn-success';
+		newPostsElem.style.display = 'none';
 		shurscriptWrapper.appendChild(newPostsElem);
 
-		var postsElem = document.getElementById("posts");// añadirlo después de #posts
+		var postsElem = document.getElementById('posts');// añadirlo después de #posts
 		postsElem.parentNode.insertBefore(shurscriptWrapper, postsElem.nextSibling);
 	}
 
@@ -183,7 +177,7 @@
 	 * @return {int} El id del timeout o <code>null</code> si no se ha creado.
 	 */
 	function createTimeout(interval) {
-		if (! interval) {
+		if (interval === undefined) {
 			if (document.hidden) {
 				if (mod.preferences.hiddenTabPeriodicity === 'off') {
 					return null;
@@ -211,7 +205,6 @@
 			clearTimeout(timeoutId);
 			timeoutActive = true;
 		}
-
 		timeoutId = null;
 		timeoutTime = null;
 
@@ -221,21 +214,23 @@
 	function loadThread() {
 		stopTimeout();
 
-		if ((numPostsBefore < 30 || isLastPage) && isOpen) {
+		if (!loadCheck()) {
+			createTimeout();
+		} else if ((numPostsBefore < postsPerPage || isLastPage) && isOpen) {
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
 				if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 					var html = xmlhttp.responseText;
 					var parser = new DOMParser();
-					var doc = parser.parseFromString(html, "text/html");
+					var doc = parser.parseFromString(html, 'text/html');
 
 					var isLastPagePrevious = isLastPage;
 
-					posts = doc.querySelectorAll("#posts > div[align]");
-					isLastPage = doc.getElementsByClassName("pagenav").length
-						? doc.getElementsByClassName("pagenav")[0].querySelector("a[rel='next']") === null
+					posts = doc.querySelectorAll('#posts > div[align]');
+					isLastPage = doc.getElementsByClassName('pagenav').length
+						? doc.getElementsByClassName('pagenav')[0].querySelector('a[rel="next"]') === null
 						: true;
-					isOpen = doc.getElementById("qrform") !== null;
+					isOpen = doc.getElementById('qrform') !== null;
 
 					differences = findDifferences(shownPosts, posts);
 					var _newPosts = differences.new.length !== 0;
@@ -243,15 +238,12 @@
 					var _editedPosts = differences.edited.length !== 0;
 					var _deletedPosts = differences.deleted.length !== 0;
 
-					if (numPostsBefore === differences.deleted.length) {// si se han borrado todos los posts, posible "Tema especificado inválido" a la vista. lo comprobamos.
-						var node = doc.querySelector(".panelsurround center");
-
-						if (node && node.textContent === "Tema especificado inválido.") {// mostrar aviso (bootstrap) y terminar
+					if (numPostsBefore === differences.deleted.length) {// si se han borrado todos los posts, posible 'Tema especificado inválido' a la vista. lo comprobamos.
+						var node = doc.querySelector('.panelsurround center');
+						if (node && node.textContent === 'Tema especificado inválido.') {// mostrar aviso (bootstrap) y terminar
 							stopTimeout();
-
-							bootbox.alert("ATENCIÓN: Este tema ha sido eliminado (tema especificado inválido).");
-
-							showButton("Este tema ha sido eliminado. No recargues la página si quieres seguir viéndolo.", "#");
+							bootbox.alert('ATENCIÓN: Este tema ha sido eliminado (tema especificado inválido).');
+							showButton('Este tema ha sido eliminado. No recargues la página si quieres seguir viéndolo.', '#');
 						}
 					}
 					// comprobar si hay nuevos posts y si no hay posts nuevos respecto a la última vez
@@ -259,13 +251,13 @@
 						newPosts(differences.new, differences.edited, differences.deleted);
 						createTimeout();
 					} else if (_newPage) {
-						showButton("Hay una nueva página", "showthread.php?t=" + thread + "&page=" + (+page + 1));
+						newPage();
 					} else {
 						createTimeout();
 					}
 				}
 			};
-			xmlhttp.open("GET", "/foro/showthread.php?t=" + thread + "&page=" + page, true);
+			xmlhttp.open('GET', '/foro/showthread.php?t=' + thread + '&page=' + page, true);
 			xmlhttp.send();
 		}
 	}
@@ -278,16 +270,15 @@
 	 */
 	function findDifferences(arrayOldPosts, arrayNewPosts) {
 		var oldPosts = {}, newPosts = {};
-
-		for (var i = 0, n = arrayOldPosts.length; i < n; i++) {
-			var post = arrayOldPosts[i].getElementsByClassName("alt1")[0];
-			var postId = post.id.substr(8);
+		var i, n, post, postId;
+		for (i = 0, n = arrayOldPosts.length; i < n; i++) {
+			post = arrayOldPosts[i].getElementsByClassName('alt1')[0];
+			postId = post.id.substr(8);
 			oldPosts[postId] = {'post': post.children[0].children[0], 'mainNode' : arrayOldPosts[i]};
 		}
-
-		for (var i = 0, n = arrayNewPosts.length; i < n; i++) {
-			var post = arrayNewPosts[i].getElementsByClassName("alt1")[0];
-			var postId = post.id.substr(8);
+		for (i = 0, n = arrayNewPosts.length; i < n; i++) {
+			post = arrayNewPosts[i].getElementsByClassName('alt1')[0];
+			postId = post.id.substr(8);
 			newPosts[postId] = {'post': post.children[0].children[0], 'mainNode' : arrayNewPosts[i]};
 		}
 
@@ -298,7 +289,6 @@
 		// recorrer los posts viejos
 		for (var oldPostId in oldPosts) {
 			var newPost = newPosts[oldPostId];
-
 			if (newPost) {// ¿Sigue existiendo el post viejo en el nuevo listado?
 				/*var oldPost = oldPosts[oldPostId];
 
@@ -318,10 +308,14 @@
 		}
 
 		return {
-				'new': _newPosts,// {id, node}
-				'deleted': _deletedPosts,// id
-				'edited': _editedPosts// {id, html}
-			};
+			'new': _newPosts,// {id, node}
+			'deleted': _deletedPosts,// id
+			'edited': _editedPosts// {id, html}
+		};
+	}
+
+	function newPage(msg) {
+		showButton(msg || 'Hay una nueva página', '?t=' + thread + '&page=' + (+page + 1));
 	}
 
 	/**
@@ -334,19 +328,19 @@
 				newPostsElem.href = href;
 				newPostsElem.onclick = undefined;
 			} else {
-				newPostsElem.href = "#";
+				newPostsElem.href = '#';
 				newPostsElem.onclick = populateNewPosts;
 			}
 
 			newPostsElem.textContent = msg;
 
-			if (! newPostsShown) {
+			if (!newPostsShown) {
 				$(newPostsElem).slideDown();
 				newPostsShown = true;
 			}
 		} else if (newPostsShown) {// ocultar
 			$(newPostsElem).slideUp();
-			newPostsElem.textContent = "";
+			newPostsElem.textContent = '';
 			newPostsShown = false;
 		}
 	}
@@ -369,14 +363,14 @@
 			var numNewPosts = newPosts ? newPosts.length : 0;
 			var numDeletedPosts = deletedPosts ? deletedPosts.length : 0;
 
-			var string = "";// el mensaje que se mostrará en el botón
+			var string = '';// el mensaje que se mostrará en el botón
 
 			if (numDeletedPosts !== 0) {
-				string += numDeletedPosts === 1 ? "Se ha eliminado un post. " : "Se han eliminado " + numDeletedPosts + " posts. ";
+				string += numDeletedPosts === 1 ? 'Se ha eliminado un post. ' : 'Se han eliminado ' + numDeletedPosts + ' posts. ';
 			}
 
 			if (numNewPosts !== 0) {
-				string += numNewPosts === 1 ? "Hay un post nuevo. " : "Hay " + numNewPosts + " posts nuevos. "
+				string += numNewPosts === 1 ? 'Hay un post nuevo. ' : 'Hay ' + numNewPosts + ' posts nuevos. '
 			}
 
 			// cambiar el título
@@ -388,9 +382,8 @@
 				showButton(string, false);
 
 				// cambiar el título
-				if (typeof newPage !== 'string') {
-					setTimeout(function () { document.title = "*" + pageTitle; }, 1);
-				}
+				setTimeout(function () { document.title = '*' + pageTitle; }, 1);
+				changeFavicon(1);
 			} else {
 				showButton(false);
 			}
@@ -403,17 +396,18 @@
 	 */
 	function populateNewPosts() {
 		// ocultar el botón
-		newPostsElem.style.display = "none";
-		newPostsElem.textContent = "";
+		newPostsElem.style.display = 'none';
+		newPostsElem.textContent = '';
 		newPostsShown = false;
 
 		// restablecer el título
 		document.title = pageTitle;
+		changeFavicon(0);
 
 		// 1: añadir posts nuevos
-		var divElem = document.createElement("div");
-		divElem.className = "new-posts";
-		divElem.style.display = "none";
+		var divElem = document.createElement('div');
+		divElem.className = 'new-posts';
+		divElem.style.display = 'none';
 
 		for (var i = 0, n = differences.new.length; i < n; i++) {
 			var post = differences.new[i];
@@ -424,14 +418,13 @@
 			SHURSCRIPT.eventbus.trigger('parsePost', new Post($(newNode)));
 		}
 
-		var postsElem = document.getElementById("posts");
-		postsElem.insertBefore(divElem, document.getElementById("lastpost"));
+		var postsElem = document.getElementById('posts');
+		postsElem.insertBefore(divElem, document.getElementById('lastpost'));
 		$(divElem).slideDown();
 
 		// ejecutar los scripts recibidos (popup menú usuario, vídeos, multicita), una vez que se han añadido al DOM
 		for (var i = 0, n = differences.new.length; i < n; i++) {
 			var node = differences.new[i].node;
-
 			unsafeWindow.PostBit_Init(node, postId);
 			unsafeWindow.parseScript(node.innerHTML);
 		}
@@ -439,9 +432,9 @@
 		// 2: procesar posts eliminados
 		for (var i = 0, n = differences.deleted.length; i < n; i++) {
 			var postId = differences.deleted[i];
-			var node = document.getElementById("edit" + postId).parentNode.parentNode.parentNode;
-			$(node).fadeTo("slow", 0.35);
-			node.removeAttribute("align");// al obtener el listado de posts solo se consideran los que tengan 'align=center' (debería buscar otro método mejor...)
+			var node = document.getElementById('edit' + postId).parentNode.parentNode.parentNode;
+			$(node).fadeTo('slow', 0.35);
+			node.removeAttribute('align');// al obtener el listado de posts solo se consideran los que tengan 'align=center' (debería buscar otro método mejor...)
 		}
 
 		// disparar evento para avisar de nuevos posts
@@ -451,14 +444,33 @@
 		unsafeWindow.ajax_last_post = (+new Date()) / 1000;
 
 		// actualizar el listado de posts que están visibles
-		shownPosts = document.querySelectorAll("#posts > div[align], #posts > div > div[align]");
+		shownPosts = document.querySelectorAll('#posts > div[align], #posts > div > div[align]');
 		numPostsBefore = shownPosts.length;
 
 		// si hay nueva página, mostrar inmediatamente el botón
-		if (! isLastPage) {
-			showButton("Hay una nueva página", "showthread.php?t=" + thread + "&page=" + (+page + 1));
+		if (!isLastPage) {
+			newPage();
 		}
 
 		return false;
+	}
+
+	function changeFavicon(type) {
+		var favicons = ['http://www.forocoches.com/favicon.ico', 'https://raw.github.com/igtroop/shurscript/anycloud/images/favicon.ico'];
+		var link = document.createElement('link');
+		var oldLink = document.getElementById('dynamic-favicon');
+		link.id = 'dynamic-favicon';
+		link.rel = 'shortcut icon';
+		link.href = favicons[type];
+		if (oldLink) {
+			document.head.removeChild(oldLink);
+		}
+		document.head.appendChild(link);
+	}
+
+	function loadCheck() {
+		var end = document.body.offsetHeight - unsafeWindow.scrollY;// pixeles que quedan para el final
+		var size = Math.min(unsafeWindow.innerHeight * 2.5, 1800);// altura del navegador
+		return end < size;
 	}
 })(jQuery, SHURSCRIPT.moduleManager.createModule);

@@ -13,7 +13,7 @@
 			showAlerts: true,
 			mentionsToo: true,
 			openInTabsButton: false,
-			refreshEvery: 2,
+			refreshEvery: 30,
 			ignoredUsers: ''
 		}
 	});
@@ -105,21 +105,6 @@
 
 	var originalTitle;
 
-	/**
-	 * Método temporal de migración de valores
-	 */
-	mod.migrateValues = function (callback) {
-		if (!mod.helper.getValue("LAST_QUOTES_UPDATE")) { //Al ser una segunda migración, no machacar los datos de los usuarios de la beta que ya habían migrado
-			mod.helper.setValue("LAST_QUOTES_UPDATE", mod.helper.getLocalValue("LAST_QUOTES_UPDATE"), function () {
-				mod.helper.setValue("LAST_READ_QUOTE", mod.helper.getLocalValue("LAST_READ_QUOTE"), function () {
-					mod.helper.setValue("LAST_QUOTES", mod.helper.getLocalValue("LAST_QUOTES"), callback);
-				});
-			});
-		} else {
-			callback();
-		}
-	};
-
 	mod.onNormalStart = function () {
 
 		originalTitle = document.title; //Para cambiar el titulo de la pagina con el numero de notificaciones
@@ -135,7 +120,8 @@
 			}
 		}
 
-		notificationsUrl = "http://www.forocoches.com/foro/search.php?do=process&query=" + escape(encodedUsername) + "&titleonly=0&showposts=1";
+		notificationsUrl = "/foro/search.php?do=process&query=" + escape(encodedUsername) + "&titleonly=0&showposts=1&{random}";
+
 		lastUpdate = mod.helper.getValue("LAST_QUOTES_UPDATE");
 		lastReadQuote = mod.helper.getValue("LAST_READ_QUOTE");
 		lastQuotesJSON = mod.helper.getValue("LAST_QUOTES");
@@ -382,9 +368,14 @@
 			}
 		};
 
-		ajax.open("GET", notificationsUrl, true);
+		ajax.open("GET", getRandomizedNotificationsUrl(), true);
 		ajax.send();
 
+	}
+
+	function getRandomizedNotificationsUrl() {
+		var rnd = new Date().getMinutes(); //Metemos un número para engañar a la caché del foro
+		return notificationsUrl.replace("{random}", "searchdate=" + (rnd + 30)); //Minimo 30 dias atras
 	}
 
 	function setNotificationsCount(count) {
@@ -497,7 +488,7 @@
 		mod.helper.setValue("LAST_QUOTES", lastQuotesJSON, callback);
 		notificationsBox.hide();
 	}
-	
+
 	var rows = {};
 
 	function addToNotificationsBox(cita) {
@@ -586,7 +577,7 @@
 
 	function importIgnoreList() {
 		var xmlhttp = new XMLHttpRequest();
-		
+
 		xmlhttp.onreadystatechange = function () {
 			if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 				var html = xmlhttp.responseText;
@@ -594,7 +585,7 @@
 				var doc = parser.parseFromString(html, "text/html");
 
 				var ignoreListElem = doc.getElementById("ignorelist"); // Si no hay nadie en ignorados este elemento no existe
-				
+
 				if (ignoreListElem) {
 					var elems = ignoreListElem.getElementsByTagName("a");
 					var ignoredUsers = [];
@@ -602,7 +593,7 @@
 					for (var i = 0, n = elems.length; i < n; i++) {
 						ignoredUsers.push(elems[i].textContent);
 					}
-					
+
 					var newIgnoredList = ignoredUsers.join(', ');
 					var oldIgnoredList = $("input[data-maps-to='ignoredUsers']").tokenfield('getTokensList', ',');
 

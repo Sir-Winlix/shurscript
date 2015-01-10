@@ -220,7 +220,7 @@ input[type="checkbox"].shur-module-enabled:checked + div > div, .shur-option inp
     padding: 0;
     width: 22px;
     height: 22px;
-    background: url(http://static.shurscript.org/img/blue.png) no-repeat;
+    background: url(https://raw.github.com/igtroop/shurscript/anycloud/images/blue.png) no-repeat;
     border: none;
     cursor: pointer;
 }

@@ -23,14 +23,14 @@
 			this.title_link = this.title_td.find('div > a[id^="thread_title_"]').first();
 			this.href = this.title_link.attr('href');
 			this.id = parseInt(/.*showthread\.php\?.*t=([0-9]+).*/.exec(this.href)[1]);
-			this.title = this.title_link.html();
+			this.title = this.title_link.text();
 			this.author_span = this.title_td.find("div.smallfont > span:last-child");
 			this.author = this.author_span.text();
 			this.icon_td = this.element.find('#td_threadstatusicon_' + this.id);
 		}
 	};
 
-	var Post = function(element) {
+	var Post = function (element) {
 		this.element = element;
 		var table = this.element.find('table').first();
 		this.elementTable = table;
@@ -38,10 +38,15 @@
 		this.id = parseInt(table.attr('id').replace('post',''));
 		this.href = '/showthread.php?p=' + this.id;
 		this.content = this.element.find('#post_message_' + this.id);
-		this.postcount = parseInt(this.element.find('#postcount' + this.id + ' strong').html());
+		this.postcount = parseInt(this.element.find('#postcount' + this.id + ' strong').text());
 
 		var user = this.element.find('#postmenu_' + this.id + ' .bigusername');
-		this.author = user.html();
+		this.ignored = false;
+		if (user.length === 0) {
+			user = this.element.find('.alt2:first-child > a');
+			this.ignored = true;
+		}
+		this.author = user.text();
 		this.author_link = user.attr('href');
 	};
 
@@ -92,19 +97,14 @@
 		});
 		var qr_do_ajax_post_original = unsafeWindow.qr_do_ajax_post;
 		var qr_do_ajax_post_new = function (ajax) {
-			qr_do_ajax_post_original(ajax);
-			if (typeof ajax === 'object') {
-				// comprobar si en el XML de respuesta hay <postbits>
-				// en caso contrario es que ha salido el mensaje "debes esperar 30 segundos"
-				if (ajax.responseXML.children[0].nodeName === 'postbits') {
-					// mirar número de respuestas ahora y lanzar evento
-					var numNewPosts = ajax.responseXML.children[0].children.length - 1;
-					SHURSCRIPT_triggerEvent('quickReply', ['done', numNewPosts]);
-					return;
-				}
-			}
-			// si ha habido un error
-			SHURSCRIPT_triggerEvent('quickReply', 'error');
+			eval("qr_do_ajax_post_original(ajax);\
+				if (typeof ajax === 'object') {\
+					if (ajax.responseXML.children[0].nodeName === 'postbits') {\
+						var numNewPosts = ajax.responseXML.children[0].children.length - 1;\
+						SHURSCRIPT_triggerEvent('quickReply', ['done', numNewPosts]);\
+					} else SHURSCRIPT_triggerEvent('quickReply', 'error');\
+				} else SHURSCRIPT_triggerEvent('quickReply', 'error');\
+			");
 		};
 		if (typeof exportFunction === 'function') {
 			// exportar la función para recibir eventos al objeto window
