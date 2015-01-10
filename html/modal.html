@@ -141,37 +141,38 @@
 			<!-- Pestaña de Preferencias backend -->
 			<div class="modal-body tab-pane" id="tab-backend" style="overflow: auto;">
 
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">
-								Configura la URL de tu backend
-							</h3>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="form-group">
-										<label for="backend-url">URL</label>
-										<input type="text" name="backend-url" class="form-control" id="backend-url" value="<%=backendURL%>"/>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-										<a class="btn btn-default btn-sm" data-loading-text="Guardando URL" id="backend-save">Guardar URL</a>
-								</div>
-							</div>
-						</div>
-					</div>
-			</div>
-
-			<!-- Pestaña de Acerca de -->
-			<div class="modal-body tab-pane" id="tab-about" style="overflow: auto;">
-
 				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Almacenar configuración de shurscript</strong>
+						<a style="margin-left:15px;" class="btn btn-default btn-sm" data-loading-text="Guardando parametros de almacenamiento" id="config-mode-save">Guardar</a>
+					</div>
 					<div class="panel-body">
-						<strong>Versión instalada:</strong> <%=scriptVersion%> <span class="label branch-<%=scriptBranch%>"><%=scriptBranch%></span>
-						<a style="margin-left:15px;" class="btn btn-default btn-sm" data-loading-text="Comprobando actualizaciones..." id="check-shurscript-updates">Comprobar actualizaciones</a>
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="form-group">
+										<select class="form-control" id="config-mode">
+										<option value="local" <%=localConfig%>>En local</option>
+										<option value="cloud" <%=cloudConfig%>>En la nube</option>
+									</select>
+								</div>
+							</div>
+						</div>
+                	</div>
+                </div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Configura la URL de tu backend (solo para funcionamiento en la nube)</strong>
+						<a style="margin-left:15px;" class="btn btn-default btn-sm" data-loading-text="Guardando URL" id="backend-save">Guardar</a>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="form-group">
+									<label for="backend-url">URL</label>
+									<input type="text" class="form-control" id="backend-url" value="<%=backendURL%>"/>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
@@ -181,6 +182,17 @@
 					</div>
 					<div class="panel-body">
 						Cada usuario del script tiene asociada una clave única con la que se almacenan y sincronizan todos sus valores y ajustes. Pulsa el botón de "Generar una nueva" solo si quieres resetear todas tus preferencias o tienes algún problema con las mismas y/o algún desarrollador del script te lo ha recomendado.
+					</div>
+				</div>
+			</div>
+
+			<!-- Pestaña de Acerca de -->
+			<div class="modal-body tab-pane" id="tab-about" style="overflow: auto;">
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<strong>Versión instalada:</strong> <%=scriptVersion%> <span class="label branch-<%=scriptBranch%>"><%=scriptBranch%></span>
+						<a style="margin-left:15px;" class="btn btn-default btn-sm" data-loading-text="Comprobando actualizaciones..." id="check-shurscript-updates">Comprobar actualizaciones</a>
 					</div>
 				</div>
 				<div class="panel panel-default" id="shur-changelog">
@@ -215,17 +227,6 @@
 						<p>Estamos seguros de que el script puede mejorar mucho más. Ayúdanos a hacerlo reportando fallos o comportamientos no deseados de algún componente del script <a href="https://github.com/igtroop/shurscript/issues" target="_blank">en nuestro GitHub</a> y trataremos de arreglarlos lo antes posible.</p>
 
 						<p>Además, si te gustaría ver alguna novedad en <strong>.shurscript</strong>, deja constancia de ella en <a href="https://shurscript.uservoice.com" target="_blank">nuestro UserVoice</a> o vota por las ya peticiones ya existentes. Evaluaremos las más votadas frecuentemente y trataremos de desarrollarlas lo mejor posible.</p>
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading"><strong>Económicamente</strong></div>
-					<div class="panel-body">
-						<p>Nuestro script desde la versión 0.20, lleva asociados algunos costes económicos que deben ser cubiertos para que su funcionamiento sea aún más impresionante, como el servidor que utilizamos para sincronizar tus preferencias, alojar las imágenes y desde el que lanzamos las nuevas versiones.</p>
-
-						<p>Todo esto supone unos costes fijos mensuales que alguien ha de afrontar y que con una pequeña donación ayudarás a cubrir. Cubrir estos gastos nos permitirá no solo mantener funcionando el script, sino añadir nuevas e interesantes mejoras que nos proporciona el tener un servidor externo y por otro lado, ganar en rendimiento. Puedes realizar una donación utilizando PayPal y dejarnos un mensaje de agradecimiento desde <a href="http://shurscript.org/colabora" target="_blank">nuestra página de colaboraciones</a>.</p>
-
-						<p>Por otra parte, en la zona inferior de la ventana de preferencias tienes dos banners de empresas que están colaborando de forma directa o indirecta con nosotros. Si por algún casual te interesan los productos que ofrecen, ser cliente ayuda indirectamente a <strong>.shurscript</strong> a hacerse cargo de estos gastos.</p>
 					</div>
 				</div>
 

@@ -185,17 +185,42 @@
 			});
 		});
 
-		// Click en boton "Guardar URL"
+		// Click en boton "Guardar" para la URL del backend
 		$modal.on('click', '#backend-save', function () {
 			var new_backendURL = $('#backend-url').val();
+			
+			if (new_backendURL.length != 0) {
+				if (new_backendURL.charAt(new_backendURL.length - 1) != "/") {
+					new_backendURL = new_backendURL + "/";
+				}
+			}
+			
+			preferences.helper.log(new_backendURL);
 			SHURSCRIPT.sync.saveBackendURL(new_backendURL);
 
-			if (new_backendURL == SHURSCRIPT.config.server)
+			if (SHURSCRIPT.config.server == new_backendURL)
 			{
 				bootbox.alert("URL guardada con éxito");
 			}
 			else {
 				bootbox.alert("Fallo al guardar la URL :(");
+			}
+		});
+
+		// Click en boton "Guardar" para el modo de almacenamiento de la configuración
+		$modal.on('click', '#config-mode-save', function () {
+			var new_config_mode = $('#config-mode').val();
+			
+			// TODO [igtroop]: ver para migrar este código a una funcion en el módulo core
+			SHURSCRIPT.core.helper.setLocalValue("CONFIG_STORE_MODE", new_config_mode);
+			SHURSCRIPT.config.store_mode = new_config_mode;
+
+			if (SHURSCRIPT.config.store_mode == new_config_mode)
+			{
+				bootbox.alert("Parámetro guardado con éxito");
+			}
+			else {
+				bootbox.alert("Fallo al guardar :(");
 			}
 		});
 
@@ -336,6 +361,8 @@
 			urlDebug: SHURSCRIPT.preferences.helper.location.href,
 			agentDebug: SHURSCRIPT.environment.browser.name,
 			backendURL: SHURSCRIPT.config.server,
+			localConfig: (SHURSCRIPT.config.store_mode == "local") ? 'selected' : '',
+			cloudConfig: (SHURSCRIPT.config.store_mode == "cloud") ? 'selected' : '',
 			modules: []
 		};
 

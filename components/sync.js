@@ -85,7 +85,7 @@
 							break;
 						case 500: //Error general
 						default:
-							sync.helper.showMessageBar({message: "<strong>Oops...</strong> No se ha podido contactar con el cloud de <strong>shurscript</strong>. Consulta qué puede estar causando este problema en <a href='https://github.com/TheBronx/shurscript/wiki/FAQ#no-se-ha-podido-contactar-con-el-cloud-de-shurscript'>las F.A.Q.</a> y, si el problema persiste, deja constancia en el <a href='" + SHURSCRIPT.config.fcThread + "'>hilo oficial</a>. <strong>{err: general}</strong>", type: "danger"});
+							sync.helper.showMessageBar({message: "<strong>Oops...</strong> No se ha podido contactar con el cloud de <strong>shurscript</strong>. Consulta qué puede estar causando este problema en <a href='https://github.com/igtroop/shurscript/wiki/FAQ#no-se-ha-podido-contactar-con-el-cloud-de-shurscript'>las F.A.Q.</a> y, si el problema persiste, deja constancia en el <a href='" + SHURSCRIPT.config.fcThread + "'>hilo oficial</a>. <strong>{err: general}</strong>", type: "danger"});
 							// TODO [igtroop]: aunque falle al cargar las preferencias seguimos para poder acceder a la configuración de la URL del backend
 							callback();
 							break;
@@ -108,7 +108,7 @@
 							break;
 						case 500: //Error general
 						default:
-							sync.helper.showMessageBar({message: "<strong>Oops...</strong> No se ha podido contactar con el cloud de <strong>shurscript</strong>. Consulta qué puede estar causando este problema en <a href='https://github.com/TheBronx/shurscript/wiki/FAQ#no-se-ha-podido-contactar-con-el-cloud-de-shurscript'>las F.A.Q.</a> y, si el problema persiste, deja constancia en el <a href='" + SHURSCRIPT.config.fcThread + "'>hilo oficial</a>. <strong>{err: general}</strong>", type: "danger"});
+							sync.helper.showMessageBar({message: "<strong>Oops...</strong> No se ha podido contactar con el cloud de <strong>shurscript</strong>. Consulta qué puede estar causando este problema en <a href='https://github.com/igtroop/shurscript/wiki/FAQ#no-se-ha-podido-contactar-con-el-cloud-de-shurscript'>las F.A.Q.</a> y, si el problema persiste, deja constancia en el <a href='" + SHURSCRIPT.config.fcThread + "'>hilo oficial</a>. <strong>{err: general}</strong>", type: "danger"});
 							// TODO [igtroop]: aunque falle al cargar las preferencias seguimos para poder acceder a la configuración de la URL del backend
 							callback();
 							break;
@@ -150,40 +150,66 @@
 	//Punto de entrada al componente.
 	sync.loadAndCallback = function (callback) {
 		//sobreescribimos las funciones de manejo de preferencias
-		// [cb] es opcional, se ejecuta una vez los datos se guardan en el servidor asíncronamente
-		SHURSCRIPT.GreaseMonkey.setValue = function (key, value, cb) {
-			Cloud.preferences[key] = value; //Copia local
-			Cloud.setValue(key, value, cb);
-		};
+		
+		sync.helper.log("loadAndCallback");
+		if (SHURSCRIPT.config.store_mode == "local")
+		{
+			SHURSCRIPT.GreaseMonkey.setValue = function (key, value, callback) {
+				noCloud.setValue(key, value);
+				if (callback) {
+					callback();
+				}
+			};
 
-		SHURSCRIPT.GreaseMonkey.getValue = function (key, defaultValue) {
-			//utilizamos la copia local de esa clave (si leyésemos del server los getValue serían asíncronos)
-			return (Cloud.preferences[key] != undefined) ? Cloud.preferences[key] : defaultValue;
-		};
+			SHURSCRIPT.GreaseMonkey.getValue = function (key, defaultValue) {
+				return noCloud.getValue(key, defaultValue);
+			};
 
-		SHURSCRIPT.GreaseMonkey.deleteValue = function (key, callback) {
-			Cloud.deleteValue(key, callback);
-		};
+			SHURSCRIPT.GreaseMonkey.deleteValue = function (key, callback) {
+				noCloud.deleteValue(key);
+				if (callback) {
+					callback();
+				}
+			};
 
-		//obtenemos la URL del backend
-		var backendURL = getBackendURL();
-		if (backendURL) {
-			Cloud.server = backendURL;
+			callback(); //notificamos al core, el siguiente componente ya puede cargar
 		}
+		else {
+			// [callback] es opcional, se ejecuta una vez los datos se guardan en el servidor asíncronamente
+			SHURSCRIPT.GreaseMonkey.setValue = function (key, value, callback) {
+				Cloud.preferences[key] = value; //Copia local
+				Cloud.setValue(key, value, callback);
+			};
 
-		//ahora necesitamos la API key. ¿existe ya una API Key guardada en las suscripciones?
-		 getApiKey( function () {
-			if (Cloud.apiKey) {
-				//tenemos apikey, usémosla
-				Cloud.getAll(callback);//una vez recuperadas las preferencias notificamos al core para que cargue el siguiente componente
-			} else {
-				//hay que pedirle una al server y guardarla en las suscripciones
-				//una vez tengamos la apiKey, la usamos
-				Cloud.generateApiKey(function () {
-					Cloud.getAll(callback); //notificamos al core, el siguiente componente ya puede cargar
-				});
+			SHURSCRIPT.GreaseMonkey.getValue = function (key, defaultValue) {
+				//utilizamos la copia local de esa clave (si leyésemos del server los getValue serían asíncronos)
+				return (Cloud.preferences[key] != undefined) ? Cloud.preferences[key] : defaultValue;
+			};
+
+			SHURSCRIPT.GreaseMonkey.deleteValue = function (key, callback) {
+				Cloud.deleteValue(key, callback);
+			};
+
+			//obtenemos la URL del backend
+			var backendURL = getBackendURL();
+			if (backendURL) {
+				Cloud.server = backendURL;
 			}
-		});
+
+			//ahora necesitamos la API key. ¿existe ya una API Key guardada en las suscripciones?
+		 	getApiKey( function () {
+				if (Cloud.apiKey) {
+					//tenemos apikey, usémosla
+					Cloud.getAll(callback);//una vez recuperadas las preferencias notificamos al core para que cargue el siguiente componente
+				} else {
+					//hay que pedirle una al server y guardarla en las suscripciones
+					//una vez tengamos la apiKey, la usamos
+					Cloud.generateApiKey(function () {
+						Cloud.getAll(callback); //notificamos al core, el siguiente componente ya puede cargar
+					});
+				}
+			});
+		 }
 	};
 
 	/**
