@@ -350,12 +350,12 @@ function getCurrentThread() {
 			closeButton: false
 		});
 
-		var new_backend_url = core.helper.getLocalValue("BACKEND_URL", "");
+		SHURSCRIPT.config.server = core.helper.getLocalValue("BACKEND_URL", "");
 		var new_config_store_mode = core.helper.getLocalValue("CONFIG_STORE_MODE");
 
 		// En una instalación migrada antes de poder configurar el modo local/cloud y con backend configurado activamos el modo cloud automaticamente
 		if (new_config_store_mode === undefined) {
-			if (new_backend_url != "") {
+			if (SHURSCRIPT.config.server != "") {
 				core.helper.setLocalValue("CONFIG_STORE_MODE", "cloud");
 				SHURSCRIPT.config.store_mode = "cloud";
 			}
@@ -363,6 +363,9 @@ function getCurrentThread() {
 				core.helper.setLocalValue("CONFIG_STORE_MODE", "local");
 				SHURSCRIPT.config.store_mode = "local";
 			}
+		}
+		else {
+			SHURSCRIPT.config.store_mode = new_config_store_mode;
 		}
 
 		if (SHURSCRIPT.config.store_mode == "local")

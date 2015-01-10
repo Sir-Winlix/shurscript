@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.290.1 `10/01/2015`
+
+**Bugfixes**
+
+* Core: Corregido fallo que no guardaba bien las preferencias del modo almacenamiento, provocando que siempre funcionara el modo cloud.
+
+------------------------------------
+
 ## v0.290.0 `10/01/2015`
 
 **Features**
