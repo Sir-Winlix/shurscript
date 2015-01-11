@@ -5,7 +5,7 @@
 ==========
 
 Script de usuario para ForoCoches.com
-* **Web**: [http://http://igtroop.github.io/shurscript](http://http://igtroop.github.io/shurscript)  
+* **Web**: [http://igtroop.github.io/shurscript](http://http://igtroop.github.io/shurscript)  
 * **Sugerencias**: [shurscript en UserVoice](https://shurscript.uservoice.com/)  
 * **Preguntas más frecuentes**: [F.A.Q en GitHub](https://github.com/igtroop/shurscript/wiki/FAQ-(Indice))  
 
