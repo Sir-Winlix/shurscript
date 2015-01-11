@@ -70,7 +70,13 @@
     /* Abrimos la ventana */
     $('#gallery').modal('show');
 
-    loadNextImage(1);
+    /* En caso de haber abierto previamente la galería no cargamos las imagenes nuevamente */
+    if( images.length <= 0) {
+      loadNextImage(1);
+    }
+    else {
+      fillGallery();
+    }
   };
 
   function progressBar(value, max, $element) {
@@ -81,7 +87,7 @@
 
   /* Rellenamos la galería */
   function fillGallery() {
-    /* En caso de haber abierto previamente la galería no cargamos las imagenes nuevamente */
+    $('#gallery').find('.modal-body').html("");
     if( images.length <= 0) {
       $('#gallery').find('.modal-body').append('<p>¡No hay imágenes en este hilo!</p>');
     }
