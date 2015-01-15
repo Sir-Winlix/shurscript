@@ -57,7 +57,7 @@
 	};
 
 	function refresh() {
-		if (location.href === "http://www.forocoches.com/foro/search.php?do=process") {
+		if ((location.href === "http://www.forocoches.com/foro/search.php?do=process") || (location.href === "https://www.forocoches.com/foro/search.php?do=process")) {
 			// Reenviar el formulario (actualizar la página causa que el navegador muestre el típico mensaje al reenviar un formulario por POST)
 			document.getElementById("searchform").submit();
 		} else {

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.290.2 `15/01/2015`
+
+**Cambios**
+
+* Añadido soporte para el foro vía HTTPS.
+
+------------------------------------
+
 ## v0.290.1 `10/01/2015`
 
 **Bugfixes**
