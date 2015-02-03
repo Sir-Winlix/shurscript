@@ -7,11 +7,11 @@
 	<ul class="thread-list list-group">
 		<% threads.forEach(function(thread, index) { %>
 			<li class="thread list-group-item">
-				<a title="Ir al primer mensaje nuevo" class="goto-newpost" href="http://www.forocoches.com/foro/showthread.php?goto=newpost&t=<%= thread.id %>"><img src="http://cdn.forocoches.com/foro/images/buttons/firstnew.gif"></a>
-				<a class="thread-title" href="http://www.forocoches.com/foro/showthread.php?t=<%= thread.id %>"><%= thread.title %></a>
+				<a title="Ir al primer mensaje nuevo" class="goto-newpost" href="//www.forocoches.com/foro/showthread.php?goto=newpost&t=<%= thread.id %>"><img src="http://cdn.forocoches.com/foro/images/buttons/firstnew.gif"></a>
+				<a class="thread-title" href="//www.forocoches.com/foro/showthread.php?t=<%= thread.id %>"><%= thread.title %></a>
 					
 				<% if (thread.post) { %>
-					<a href="http://www.forocoches.com/foro/showthread.php?p=<%= thread.post.id %>#post<%= thread.post.id %>" class="post-content"><%= thread.post.content %></a>
+					<a href="//www.forocoches.com/foro/showthread.php?p=<%= thread.post.id %>#post<%= thread.post.id %>" class="post-content"><%= thread.post.content %></a>
 				<% }%>
 			</li>
 		<% }); %>

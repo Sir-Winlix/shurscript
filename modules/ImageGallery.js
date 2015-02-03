@@ -109,7 +109,7 @@
     }
     else {
       var reIm = /\<img .*?src="(.*?)"/i;
-      var reMe = /<!-- message -->([\s\S]*?)<!-- \/ message -->/i;
+      var reMe = /<!-- post #\d+ -->([\s\S]*?)<!-- \/ post #\d+ -->/i;
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
@@ -143,7 +143,7 @@
 
   /* Limpiamos el array de imagenes repetidas o imagenes del foro */
   function cleanImages(images) {
-    var re = /http:\/\/.*.forocoches.com\/(.*)/i;
+    var re = /https?:\/\/.*.forocoches.com\/(.*)/i;
     if (images.length > 0) {
       for (i = images.length - 1; i >= 0; i--) {
         if (re.test(images[i])) {

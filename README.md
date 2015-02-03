@@ -12,7 +12,7 @@ Script de usuario para ForoCoches.com
 <h2>Características:</h2>
 
  * Notificaciones de citas o menciones.
- 	* _Nota: Pueden tardar hasta 5 minutos en aparecer las citas/menciones_
+ 	* _Nota: Pueden tardar un mínimo de 5 minutos en aparecer las citas/menciones_
  * Barra de navegación duplicada en la parte de abajo para mejor accesibilidad
  * Marcar hilos favoritos y destacarlos entre el resto de hilos del subforo.
  * Citas anidadas
@@ -25,8 +25,7 @@ Script de usuario para ForoCoches.com
 Para instalar el script necesitas solamente dos cosas:
  * Navegador compatible (preferiblemente Firefox o Chrome aunque funciona también en Opera y Safari)
  * Extensión correspondiente para ejecutar scripts de usuario:
-   + Para Firefox: [Scriptish](https://addons.mozilla.org/es/firefox/addon/scriptish/) ó 
-[GreaseMonkey](https://addons.mozilla.org/es/firefox/addon/greasemonkey/)
+   + Para Firefox: [GreaseMonkey](https://addons.mozilla.org/es/firefox/addon/greasemonkey/)
    + Para Chrome: [TamperMonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=es)
    + Para Opera: [TamperMonkey](https://addons.opera.com/es/extensions/details/tampermonkey-beta/?display=es)
    + Para Maxthon: **No soportado**

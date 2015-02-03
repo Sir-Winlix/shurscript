@@ -49,7 +49,7 @@
 			creOpt({
 				type: 'radio',
 				elements: [
-					{value: 2, caption: 'Cada 2 minutos'},
+					{value: 5, caption: 'Cada 5 minutos'},
 					{value: 10, caption: 'Cada 10 minutos'},
 					{value: 30, caption: 'Cada 30 minutos'},
 					{value: 'off', caption: 'Manualmente', subCaption: 'Haciendo clic en el contador de notificaciones'}
@@ -133,6 +133,10 @@
 		refreshEvery = mod.preferences.refreshEvery;
 		if (refreshEvery != 'off') {
 			refreshEvery = parseInt(refreshEvery);
+			// El tiempo mínimo pasa a ser 5min ya que el contenido se indexa cada 5min
+			if (refreshEvery < 5) {
+				refreshEvery = 5;
+			}
 		}
 
 		// Precarga la plantilla de las citas y la compila
@@ -159,7 +163,7 @@
 			$(".page table td.alt2[nowrap]").first().parent().append('<td style="padding: 0px;" class="alt2"><div class="notifications">0</div></td>');
 		}
 		$('.notifications').click(function () {
-			if (currentStatus == "ERROR" || (!lastUpdate || Date.now() - parseFloat(lastUpdate) > (60 * 1000))) { //La actualizacion manual hay que esperar un minuto minimo
+			if (currentStatus == "ERROR" || (!lastUpdate || Date.now() - parseFloat(lastUpdate) > (5 * 60 * 1000))) { //La actualización manual hay que esperar 5 minutos mínimo, ya que es el tiempo de indexación
 				updateNotifications();
 			}
 
@@ -204,7 +208,7 @@
 						if (ajax.responseText.indexOf("debes estar registrado o identificado") != -1) {
 							currentStatus = "ERROR";
 							var notificationsDiv = $(".notifications");
-							notificationsDiv.attr("title", "Ha ocurrido un error al cargar las notificaciones. Contacta con los desarrolladores en el hilo oficial del Shurscript (ForoCoches).");
+							notificationsDiv.attr("title", "Ha ocurrido un error al cargar las notificaciones. Contacta con los desarrolladores en la página oficial.");
 							notificationsDiv.html("X");
 							return;
 						}

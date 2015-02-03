@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.290.3 `03/02/2015`
+
+**Bugfixes**
+
+* ImageGallery: Debido a algunos cambios en el foro no se obtenían bien los post para sacar las imágenes.
+
+------------------------------------
+
+## v0.290.2 `15/01/2015`
+
+**Cambios**
+
+* Añadido soporte para el foro vía HTTPS.
+
+------------------------------------
+
 ## v0.290.1 `10/01/2015`
 
 **Bugfixes**

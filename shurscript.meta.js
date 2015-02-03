@@ -8,7 +8,7 @@
 // @icon            https://raw.github.com/igtroop/shurscript/anycloud/images/icon-48x48.png
 // @icon64          https://raw.github.com/igtroop/shurscript/anycloud/images/icon-64x64.png
 // @namespace       http://shurscript.es
-// @version         0.290.1
+// @version         0.290.3
 // @author          TheBronx
 // @author          xusO
 // @author          Fritanga / Korrosivo
@@ -17,6 +17,8 @@
 // @author          igtroop
 // @include         http://www.forocoches.com*
 // @include         http://forocoches.com*
+// @include         https://www.forocoches.com*
+// @include         https://forocoches.com*
 // @grant           GM_log
 // @grant           GM_getValue
 // @grant           GM_setValue

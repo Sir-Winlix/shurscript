@@ -231,7 +231,7 @@
 		if (!apiKey) {
 			GM_xmlhttpRequest({
 				method: 'GET',
-				url: 'http://www.forocoches.com/foro/subscription.php?do=editfolders', //La buscamos en la carpeta falsa que se crea en las suscripciones
+				url: '//www.forocoches.com/foro/subscription.php?do=editfolders', //La buscamos en la carpeta falsa que se crea en las suscripciones
 				data: '',
 				onload: function (response) {
 					var documentResponse = $.parseHTML(response.responseText);
@@ -263,7 +263,7 @@
 		if (!securitytoken) {
 				GM_xmlhttpRequest({
 				method: 'GET',
-				url: 'http://www.forocoches.com/foro/subscription.php?do=editfolders',
+				url: '//www.forocoches.com/foro/subscription.php?do=editfolders',
 				data: '',
 				onload: function (response) {
 					var documentResponse = $.parseHTML(response.responseText);
@@ -281,7 +281,7 @@
 		var folderName = "shurkey-" + apiKey;
 		GM_xmlhttpRequest({
 			method: 'POST',
-			url: 'http://www.forocoches.com/foro/subscription.php?do=doeditfolders',
+			url: '//www.forocoches.com/foro/subscription.php?do=doeditfolders',
 			data: 's=&securitytoken=' + securitytoken + '&do=doeditfolders&folderlist[50]=' + folderName + '&do=doeditfolders',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'

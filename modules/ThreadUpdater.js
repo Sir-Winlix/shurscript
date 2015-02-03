@@ -456,7 +456,7 @@
 	}
 
 	function changeFavicon(type) {
-		var favicons = ['http://www.forocoches.com/favicon.ico', 'https://raw.github.com/igtroop/shurscript/anycloud/images/favicon.ico'];
+		var favicons = ['//www.forocoches.com/favicon.ico', 'https://raw.github.com/igtroop/shurscript/anycloud/images/favicon.ico'];
 		var link = document.createElement('link');
 		var oldLink = document.getElementById('dynamic-favicon');
 		link.id = 'dynamic-favicon';

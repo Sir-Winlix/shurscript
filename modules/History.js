@@ -1,4 +1,3 @@
-
 (function ($, createModule, undefined) {
 	'use strict';
 
@@ -135,7 +134,7 @@
 				}
 			}
 		};
-		request.open('GET', 'http://www.forocoches.com/foro/search.php?do=finduser&starteronly=1&u=' + SHURSCRIPT.environment.user.id);
+		request.open('GET', '//www.forocoches.com/foro/search.php?do=finduser&starteronly=1&u=' + SHURSCRIPT.environment.user.id);
 		request.send();
 	}
 	
@@ -185,7 +184,7 @@
 				}
 			}
 		};
-		request.open('GET', 'http://www.forocoches.com/foro/search.php?do=finduser&u=' + SHURSCRIPT.environment.user.id + '-' + new Date().getMinutes());
+		request.open('GET', '//www.forocoches.com/foro/search.php?do=finduser&u=' + SHURSCRIPT.environment.user.id + '-' + new Date().getMinutes());
 		request.send();
 	}
 	
