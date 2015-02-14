@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v0.290.4 `14/02/2015`
+
+**Bugfixes**
+
+* ImageGallery: Corregido bug al eliminar las imágenes propias del foro.
+* Quotes: Mínimo arreglo visual para la frontpage.
+
+------------------------------------
+
 ## v0.290.3 `03/02/2015`
 
 **Bugfixes**

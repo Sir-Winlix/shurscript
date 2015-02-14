@@ -8,7 +8,7 @@
 // @icon            https://raw.github.com/igtroop/shurscript/anycloud/images/icon-48x48.png
 // @icon64          https://raw.github.com/igtroop/shurscript/anycloud/images/icon-64x64.png
 // @namespace       http://shurscript.es
-// @version         0.290.3
+// @version         0.290.4
 // @author          TheBronx
 // @author          xusO
 // @author          Fritanga / Korrosivo
