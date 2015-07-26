@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.290.5 `27/07/2015`
+
+**Bugfixes**
+
+* ThreadUpdater: Solucionado problema que no procesaba la respuesta del servidor al devolverse con un error 500 cuando la respuesta es correcta.
+* HighlightOP: Solucionado problema que no procesaba la respuesta del servidor al devolverse con un error 500 cuando la respuesta es correcta.
+* ImageGallery: Solucionado problema que no procesaba la respuesta del servidor al devolverse con un error 500 cuando la respuesta es correcta.
+
+------------------------------------
+
 ## v0.290.4 `14/02/2015`
 
 **Bugfixes**

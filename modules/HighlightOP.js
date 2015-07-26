@@ -152,7 +152,7 @@
 
 		// Get first page asynchronously
 		xmlhttp.onreadystatechange = function () {
-			if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {// If no errors, parse received HTML and get OP's name
+			if (xmlhttp.readyState === 4 && ((xmlhttp.status === 200) || (xmlhttp.status === 500)) ) { // If no errors, parse received HTML and get OP's name
 				var doc = new DOMParser().parseFromString(xmlhttp.responseText, "text/html");
 				op = getOpFrom(doc.querySelector("#posts div.page"));
 				sessionStorage["op_" + currentThread] = op;

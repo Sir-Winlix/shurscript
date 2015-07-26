@@ -219,7 +219,7 @@
 		} else if ((numPostsBefore < postsPerPage || isLastPage) && isOpen) {
 			var xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
-				if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				if (xmlhttp.readyState === 4 && ((xmlhttp.status === 200) || (xmlhttp.status === 500)) ) {
 					var html = xmlhttp.responseText;
 					var parser = new DOMParser();
 					var doc = parser.parseFromString(html, 'text/html');

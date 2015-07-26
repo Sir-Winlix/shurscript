@@ -112,7 +112,7 @@
       var reMe = /<!-- post #\d+ -->([\s\S]*?)<!-- \/ post #\d+ -->/i;
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+        if (xmlhttp.readyState === 4 && ((xmlhttp.status === 200) || (xmlhttp.status === 500)) ) {
           var html = xmlhttp.responseText;
           /* Buscamos los post */
           while (html.search(reMe) !== -1 ) {
