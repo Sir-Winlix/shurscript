@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.290.6 `31/07/2015`
+
+#AVISO IMPORTANTE
+** Debido al baneo de mi cuenta en el foro no será posible seguir con el mantenimiento de Shurscript, las personas que quieran hacer parches para ir solucionando los problemas pueden hacer un _pull_ en la rama anycloud del proyecto. **
+** También podeis mandar un correo con parches o cualquier problema/solución a: igarciatro.op _@_ gmail.com **
+
+------------------------------------
+
 ## v0.290.5 `27/07/2015`
 
 **Bugfixes**
